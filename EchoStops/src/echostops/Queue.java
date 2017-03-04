@@ -10,5 +10,7 @@ package echostops;
  * @author cgcv
  */
 public class Queue {
+    private LinkedList principal;
+    
     
 }
