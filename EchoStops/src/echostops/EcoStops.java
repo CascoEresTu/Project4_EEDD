@@ -24,11 +24,10 @@ public class EcoStops {
         lista.insert(new Person("", "", 4, 0, 0, false), 0);
         lista.insert(new Person("", "", 5, 0, 0, true), 0);
                 
-        for (int i = 0; i < lista.Size()-1; i++) {
+        for (int i = 0; i < lista.Size(); i++) {
             System.out.println(lista.get(i).toString());
-        }
-        lista.remove(lista.Size());
-
+        }        
+   
     }
 
 }
