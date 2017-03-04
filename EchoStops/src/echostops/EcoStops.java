@@ -27,6 +27,7 @@ public class EcoStops {
         for (int i = 0; i < lista.Size()-1; i++) {
             System.out.println(lista.get(i).toString());
         }
+        lista.remove(lista.Size());
 
     }
 
