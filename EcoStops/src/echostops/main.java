@@ -25,6 +25,7 @@ public class main extends javax.swing.JFrame {
         MemberList = new LinkedList();
         Prizes = new Queue();
         graph = new MultiGraph("Map");
+        MemberList.insert( new Member("Caca", "Roto", 123, "321dsasd", 20, true), 0);
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
         m.addElement(new Member("Caca", "Roto", 123, "321dsasd", 20, true));
         this.jl_memberList.setModel(m);
@@ -360,11 +361,11 @@ public class main extends javax.swing.JFrame {
         if (this.jl_memberList.getSelectedIndex() > -1) {
             int selected = this.jl_memberList.getSelectedIndex();
 
-            Object remove = this.MemberList.remove(selected+1);
+            this.MemberList.remove(selected );
 
             DefaultListModel model = (DefaultListModel) this.jl_memberList.getModel();
             model.clear();
-            
+
             if (MemberList.Size() > 0) {
 
                 for (int i = 0; i < MemberList.Size() - 1; i++) {
@@ -408,8 +409,8 @@ public class main extends javax.swing.JFrame {
         }
     }
 
-    public double Calculate_distance(String EcoStop_ID, String PowerPlant_ID) {
-        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "Distance");
+    public double Calculate_Traffic(String EcoStop_ID, String PowerPlant_ID) {
+        Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "Traffic Weight");
         dijkstra.init(graph);
         dijkstra.setSource(graph.getNode(EcoStop_ID));
         dijkstra.compute();

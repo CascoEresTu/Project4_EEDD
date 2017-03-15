@@ -9,7 +9,7 @@ package echostops;
  *
  * @author cgcv
  */
-public class AirbotDeliveryTrip implements Runnable {
+public class ThreadAirbotDelivery implements Runnable {
     
     @Override
     public void run() {
