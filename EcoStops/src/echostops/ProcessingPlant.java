@@ -15,7 +15,6 @@ public class ProcessingPlant {
     private int plastic_units;
     private int glass_units;
     private int aluminum_units;
-    private int burnable_units;
-    
+    private int burnable_units;    
 
 }

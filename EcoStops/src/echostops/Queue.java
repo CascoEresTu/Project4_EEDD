@@ -12,7 +12,7 @@ package echostops;
 public class Queue {
     private LinkedList principal;
 
-    public Queue(LinkedList principal) {
+    public Queue() {
         this.principal = new LinkedList();
     }
     

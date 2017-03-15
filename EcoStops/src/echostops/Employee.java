@@ -13,11 +13,11 @@ public class Employee extends Person {
 
     private String WorkID;
 
-    public Employee(String name, String last_name, int ID, int phone, int age, boolean gender) {
+    public Employee(String name, String last_name, int ID, String phone, int age, boolean gender) {
         super(name, last_name, ID, phone, age, gender);
     }
 
-    public Employee(String WorkID, String name, String last_name, int ID, int phone, int age, boolean gender) {
+    public Employee(String WorkID, String name, String last_name, int ID, String phone, int age, boolean gender) {
         super(name, last_name, ID, phone, age, gender);
         this.WorkID = WorkID;
     }
