@@ -26,7 +26,7 @@ public class main extends javax.swing.JFrame {
         Prizes = new Queue();
         graph = new MultiGraph("Map");
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
-        m.addElement(new Member("", "", 123, "321dsasd", 20, true));
+        m.addElement(new Member("Caca", "Roto", 123, "321dsasd",20, true));
         this.jl_memberList.setModel(m);
     }
 

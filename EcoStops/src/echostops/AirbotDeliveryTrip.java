@@ -9,9 +9,7 @@ package echostops;
  *
  * @author cgcv
  */
-public class StartTrip implements Runnable {
-    RunThrough asd;
-    boolean alive;
+public class AirbotDeliveryTrip implements Runnable {
     
     @Override
     public void run() {

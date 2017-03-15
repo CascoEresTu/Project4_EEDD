@@ -28,7 +28,7 @@ public class ThreadMemberDelivery implements Runnable {
         int glass_units = (int) (Math.random() * 100) + 20;
         int aluminum_units = (int) (Math.random() * 80) + 30;
         int burnable_units = (int) (Math.random() * 100) + 10;
-        return new int[]{plastic_units, glass_units, aluminum_units};
+        return new int[]{plastic_units, glass_units, aluminum_units, burnable_units};
     }
 
     @Override

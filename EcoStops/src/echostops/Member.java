@@ -11,9 +11,9 @@ package echostops;
  */
 public class Member extends Person {
 
-    private String MemberID; // Se implementará un aleatorio alfanumerico para setear un ID unica a cada uno de los miembros
-    private int[] actual_units; //esto es lo que el miembro irá a depositar.
-    private int[] history_units; //este es el record del miembro, se guardan todos los depositos que ha hecho desde el principio
+    private String MemberID;
+    private int[] actual_units;
+    private int[] history_units;
 
     public Member(String name, String last_name, int ID, String phone, int age, boolean gender) {
         super(name, last_name, ID, phone, age, gender);
@@ -51,7 +51,7 @@ public class Member extends Person {
     }
 
     @Override
-    public String toString() { // Representacion del toString para ver ordenadamente a los miembros en las listas
+    public String toString() {
         return super.getName() + " " + super.getLast_name() + " " + MemberID;
     }
 
