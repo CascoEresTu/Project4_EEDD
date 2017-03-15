@@ -10,8 +10,9 @@ package echostops;
  * @author cgcv
  */
 public class Employee extends Person {
-
-    private String WorkID;
+    //Cada EcoStop tendrá un set de empleados, los cuales se generarán aleatoriamente.
+    private String WorkID; // combinación única alfanumérica para cada empleado
+    
 
     public Employee(String name, String last_name, int ID, String phone, int age, boolean gender) {
         super(name, last_name, ID, phone, age, gender);
