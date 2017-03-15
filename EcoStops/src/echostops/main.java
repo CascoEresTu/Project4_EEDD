@@ -26,7 +26,7 @@ public class main extends javax.swing.JFrame {
         Prizes = new Queue();
         graph = new MultiGraph("Map");
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
-        m.addElement(new Member("Caca", "Roto", 123, "321dsasd",20, true));
+        m.addElement(new Member("Caca", "Roto", 123, "321dsasd", 20, true));
         this.jl_memberList.setModel(m);
     }
 
@@ -360,10 +360,17 @@ public class main extends javax.swing.JFrame {
         if (this.jl_memberList.getSelectedIndex() > -1) {
             int selected = this.jl_memberList.getSelectedIndex();
 
-            this.MemberList.remove(selected);
+            Object remove = this.MemberList.remove(selected+1);
 
             DefaultListModel model = (DefaultListModel) this.jl_memberList.getModel();
-            model.remove(selected);
+            model.clear();
+            
+            if (MemberList.Size() > 0) {
+
+                for (int i = 0; i < MemberList.Size() - 1; i++) {
+                    model.addElement(MemberList.get(i));
+                }
+            }
 
             this.jl_memberList.setModel(model);
         } else {
@@ -374,7 +381,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_deleteMemberMouseClicked
 
     private void jl_memberListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_memberListMouseClicked
-        // TODO add your handling code here:
+        System.out.println(this.jl_memberList.getSelectedIndex());
     }//GEN-LAST:event_jl_memberListMouseClicked
 
     public void PrizeGenerator() {
@@ -412,7 +419,6 @@ public class main extends javax.swing.JFrame {
         }
         dijkstra.clear();
         return retval;
-
     }
 
     /**
