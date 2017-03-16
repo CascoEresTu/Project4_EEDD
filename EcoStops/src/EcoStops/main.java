@@ -29,7 +29,7 @@ public class main extends javax.swing.JFrame {
         Prizes = new Queue();
         graph = createMultigraph();
         TrafficChangerThread t1 = new TrafficChangerThread(graph);        
-        t1.run();
+        t1.start();
                        
         graph.display();
 
