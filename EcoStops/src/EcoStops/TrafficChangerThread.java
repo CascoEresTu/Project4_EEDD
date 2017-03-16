@@ -52,16 +52,17 @@ public class TrafficChangerThread extends Thread {
                 } else {
                     edge.removeAttribute("Traffic Weight");
                     edge.addAttribute("Traffic Weight", random);
-
                 }
+                edge.removeAttribute("ui.label");
+                edge.addAttribute("ui.label", "" + edge.getAttribute("Traffic Weight"));
             }
-
+            
             for (Edge edge : graph.getEachEdge()) {
                 System.out.println(edge.getAttribute("Traffic Weight") + "");
             }
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(10000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficChangerThread.class.getName()).log(Level.SEVERE, null, ex);
             }

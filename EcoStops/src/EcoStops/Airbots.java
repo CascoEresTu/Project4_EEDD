@@ -15,6 +15,7 @@ public class Airbots {
     private int capacity_aluminum;
     private int capacity_glass;
     private int [] materials;
+    private boolean isBusy;
     
     public Airbots(int capacity_plastics, int capacity_aluminum, int capacity_glass) {
         this.materials = new int[3];
@@ -22,6 +23,15 @@ public class Airbots {
         this.capacity_aluminum = capacity_aluminum;
         this.capacity_glass = capacity_glass;
     }
+
+    public Airbots(int capacity_plastics, int capacity_aluminum, int capacity_glass, int[] materials) {
+        this.capacity_plastics = capacity_plastics;
+        this.capacity_aluminum = capacity_aluminum;
+        this.capacity_glass = capacity_glass;
+        this.materials = materials;
+        this.isBusy = false;
+    }
+        
 
     public Airbots() {
         this.materials = new int[3];

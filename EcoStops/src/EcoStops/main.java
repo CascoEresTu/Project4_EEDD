@@ -32,7 +32,9 @@ public class main extends javax.swing.JFrame {
         MemberList = new LinkedList();
         Prizes = new Queue();
         graph = createMultigraph();
+        
         FillCB();
+       
         TrafficChangerThread t1 = new TrafficChangerThread(graph);
         t1.start();
         graph.display();
@@ -698,6 +700,7 @@ public class main extends javax.swing.JFrame {
         for (Node node : retgraph) {
             node.addAttribute("ui.label", node.getId());
         }
+        
         return retgraph;
     }
 
