@@ -49,11 +49,10 @@ public class ThreadMemberDelivery implements Runnable {
             EcoStop aux = (EcoStop) EcoStopList.get(selected_EcoStop);
             
             int [] retval = ThrashGenerator();
-            /*
-            ((EcoStop)(graph.getNode(selected_EcoStop.getAttribute("EcoStop")))).setUnits(retval);
+            ((EcoStop)(graph.getNode(""+selected_EcoStop).getAttribute("EcoStop"))).setUnits(retval);
             
             
-            */
+         
             // se crean nuevos valores actuales a depositar 
             temp.setActual_units(ThrashGenerator());
 
