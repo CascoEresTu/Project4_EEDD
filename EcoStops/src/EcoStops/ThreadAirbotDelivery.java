@@ -6,6 +6,7 @@
 package EcoStops;
 
 import java.util.ArrayList;
+import javax.swing.JTextArea;
 import org.graphstream.algorithm.Dijkstra;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
@@ -15,17 +16,23 @@ import org.graphstream.graph.implementations.MultiGraph;
  *
  * @author cgcv
  */
-public class ThreadAirbotDelivery implements Runnable {
+public class ThreadAirbotDelivery extends Thread {
     private MultiGraph graph;
+    private JTextArea text;
     private Node Selected_EcoStop;
     private Node Selected_Plant;
     private double route_weight;
     private boolean isAlive;
 
-    public ThreadAirbotDelivery(MultiGraph graph, Node Selected_EcoStop, double route_weight) {
+    public ThreadAirbotDelivery(MultiGraph graph, Node Selected_EcoStop) {
         this.graph = graph;
+        this.Selected_EcoStop = Selected_EcoStop;       
+    }
+
+    public ThreadAirbotDelivery(MultiGraph graph, JTextArea text, Node Selected_EcoStop) {
+        this.graph = graph;
+        this.text = text;
         this.Selected_EcoStop = Selected_EcoStop;
-        this.route_weight = route_weight;
     }
 
     public MultiGraph getGraph() {
@@ -48,7 +55,8 @@ public class ThreadAirbotDelivery implements Runnable {
         return route_weight;
     }
 
-    public void setRoute_weight(double route_weight) {
+    public void setRoute_weight() {
+        
         this.route_weight = route_weight;
     }
 
