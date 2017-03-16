@@ -16,7 +16,7 @@ import org.graphstream.graph.implementations.MultiGraph;
  *
  * @author k_k_r
  */
-public class TrafficChangerThread implements Runnable {
+public class TrafficChangerThread extends Thread {
 
     MultiGraph graph;
     boolean run = true;
