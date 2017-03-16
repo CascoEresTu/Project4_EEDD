@@ -11,7 +11,7 @@ import org.graphstream.graph.implementations.MultiGraph;
  *
  * @author k_k_r
  */
-public class ThreadMemberDelivery implements Runnable {
+public class ThreadMemberDelivery extends Thread {
 
     private LinkedList MemberList;
     private LinkedList EcoStopList;
