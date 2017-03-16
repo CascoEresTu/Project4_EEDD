@@ -32,6 +32,23 @@ public class EcoStop {
         burnable_units = 0;
     }
 
+    public int getPlastic_units() {
+        return plastic_units;
+    }
+
+    public int getGlass_units() {
+        return glass_units;
+    }
+
+    public int getAluminum_units() {
+        return aluminum_units;
+    }
+
+    public int getBurnable_units() {
+        return burnable_units;
+    }
+
+    
     public void setUnits(int[] units) {
         this.plastic_units += units[0];
         this.glass_units += units[1];
