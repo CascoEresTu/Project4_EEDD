@@ -5,13 +5,25 @@
  */
 package EcoStops;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
+import org.graphstream.ui.swingViewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
 
 /**
  *
@@ -23,6 +35,8 @@ public class main extends javax.swing.JFrame {
      * Creates new form main
      */
     public main() {
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         initComponents();
         this.cb_ecoStops.setEnabled(false);
         this.jLabel16.setEnabled(false);
@@ -32,13 +46,24 @@ public class main extends javax.swing.JFrame {
         MemberList = new LinkedList();
         Prizes = new Queue();
         graph = createMultigraph();
-        
+        graph.addAttribute("ui.style", returnCSS(new File("./graph.css")));
         FillCB();
-       
+
         TrafficChangerThread t1 = new TrafficChangerThread(graph);
         t1.start();
         graph.display();
-
+        viewer = new Viewer(graph,
+                Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        view = viewer.addDefaultView(true);
+        viewer.enableAutoLayout();
+        view.setSize(new Dimension(1100, 800));
+        this.add((Component) view, BorderLayout.SOUTH);
+        view.openInAFrame(false);
+        view.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectNodes(evt);
+            }
+        });
         MemberList.insert(new Member("Caca", "Roto", 123, "321dsasd", 20, true), 0);
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
         m.addElement(new Member("Caca", "Roto", 123, "321dsasd", 20, true));
@@ -93,7 +118,6 @@ public class main extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         textarea_notifications = new javax.swing.JTextArea();
         jb_notificaciones = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mi_RegistrarMiembro = new javax.swing.JMenuItem();
@@ -384,17 +408,6 @@ public class main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
-        );
-
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jMenu1.setText("Opciones");
@@ -425,20 +438,17 @@ public class main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(836, Short.MAX_VALUE)
                 .addComponent(jb_notificaciones)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jb_notificaciones)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jb_notificaciones)
+                .addContainerGap(442, Short.MAX_VALUE))
         );
 
         pack();
@@ -700,7 +710,7 @@ public class main extends javax.swing.JFrame {
         for (Node node : retgraph) {
             node.addAttribute("ui.label", node.getId());
         }
-        
+
         return retgraph;
     }
 
@@ -747,6 +757,89 @@ public class main extends javax.swing.JFrame {
         });
     }
 
+    private void selectNodes(MouseEvent evt) {
+        if (evt.isMetaDown()) {
+            int nodeselect = 0;
+            for (Node node : graph) {
+                if (graph.getNode(node.getId()).hasAttribute("ui.selected")) {
+                    if (this.nodea == null) {
+                        this.nodea = ggraph.getNode(node.getId());
+                    } else if (this.nodeb == null && ggraph.getNode(node.getId()) != this.nodea) {
+                        this.nodeb = viewer.getGraphicGraph().getNode(node.getId());
+                    } else {
+                        if (this.nodea != null && this.nodeb != null && nodeselect >= 2) {
+                            JOptionPane.showMessageDialog(this, "Ya eligió dos sus stops, se reiniciarán las selecciones");
+                            for (Node nodei : graph) {
+                                this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
+                            }
+                            for (Edge edge : graph.getEachEdge()) {
+                                ggraph.getEdge(edge.getId()).removeAttribute("ui.style");
+                                ggraph.getEdge(edge.getId()).removeAttribute("ui.label");
+                                ggraph.getEdge(edge.getId()).addAttribute("ui.style", ""
+                                        + "	size: 5px;\n"
+                                        + "	shape:angle;\n"
+                                        + "	arrow-shape:arrow;\n"
+                                        + "	arrow-size:5px,5px;\n"
+                                        + "	padding: 20px;\n"
+                                        + "	fill-mode:gradient-horizontal;\n"
+                                        + "	fill-color:#ff0084,#480048;\n"
+                                        + "     text-color:white;\n"
+                                        + "	text-background-mode:rounded-box;\n"
+                                        + "	text-background-color: #A7CC;\n"
+                                        + "	text-style:bold-italic;\n"
+                                        + "	text-alignment:under; ");
+                            }
+                            nodeselect = 0;
+                            this.nodea = null;
+                            this.nodeb = null;
+                        }
+                    }
+                    nodeselect++;
+                }
+            }
+        } else {
+            for (Node node : graph) {
+                this.ggraph.getNode(node.getId()).removeAttribute("ui.selected");
+            }
+            for (Edge edge : graph.getEachEdge()) {
+                ggraph.getEdge(edge.getId()).removeAttribute("ui.style");
+                ggraph.getEdge(edge.getId()).removeAttribute("ui.label");
+                ggraph.getEdge(edge.getId()).addAttribute("ui.style", ""
+                        + "	size: 5px;\n"
+                        + "	shape:angle;\n"
+                        + "	arrow-shape:arrow;\n"
+                        + "	arrow-size:5px,5px;\n"
+                        + "	padding: 20px;\n"
+                        + "	fill-mode:gradient-horizontal;\n"
+                        + "	fill-color:#ff0084,#480048;\n"
+                        + "     text-color:white;\n"
+                        + "	text-background-mode:rounded-box;\n"
+                        + "	text-background-color: #A7CC;\n"
+                        + "	text-style:bold-italic;\n"
+                        + "	text-alignment:under; ");
+            }
+            this.nodea = null;
+            this.nodeb = null;
+        }
+    }
+    
+    public static String returnCSS(File file) {
+        String css = "";
+        try {
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                css += line;
+            }
+            br.close();
+            fr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return css;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bg_registerw;
     private javax.swing.ButtonGroup bg_tipo;
@@ -765,7 +858,6 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -797,4 +889,9 @@ public class main extends javax.swing.JFrame {
     private Queue Prizes;
     private int contador_miembros;
     private MultiGraph graph;
+    private Viewer viewer = null;
+    private GraphicGraph ggraph;
+    private ViewPanel view = null;
+    private Node nodea = null;
+    private Node nodeb = null;
 }
