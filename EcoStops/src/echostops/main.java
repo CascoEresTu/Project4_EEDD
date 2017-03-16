@@ -5,10 +5,12 @@
  */
 package echostops;
 
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.graphstream.algorithm.Dijkstra;
 import org.graphstream.graph.Edge;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
 /**
@@ -24,7 +26,8 @@ public class main extends javax.swing.JFrame {
         initComponents();
         MemberList = new LinkedList();
         Prizes = new Queue();
-        graph = new MultiGraph("Map");
+        graph = createMultigraph();
+        graph.display();
         MemberList.insert( new Member("Caca", "Roto", 123, "321dsasd", 20, true), 0);
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
         m.addElement(new Member("Caca", "Roto", 123, "321dsasd", 20, true));
@@ -465,6 +468,113 @@ public class main extends javax.swing.JFrame {
         });
     }
 
+    
+    private MultiGraph createMultigraph(){
+        MultiGraph retgraph =  new MultiGraph("Map");
+        retgraph.setStrict(false);
+        ArrayList<EcoStop> stops= new ArrayList();
+        for (int i = 0; i < 25; i++) {
+            stops.add(new EcoStop(i));
+        }
+        ProcessingPlant a = new ProcessingPlant(0,0,0,0,'A',0);
+        ProcessingPlant b = new ProcessingPlant(0,0,0,0,'B',0);
+        ProcessingPlant c = new ProcessingPlant(0,0,0,0,'C',0);
+        ProcessingPlant d = new ProcessingPlant(0,0,0,0,'D',0);
+        ProcessingPlant e = new ProcessingPlant(0,0,0,0,'E',0);
+        
+        retgraph.addNode(""+a.getID()).addAttribute("ProcessingPlant", a);
+        retgraph.addNode(""+b.getID()).addAttribute("ProcessingPlant", b);
+        retgraph.addNode(""+c.getID()).addAttribute("ProcessingPlant", c);
+        retgraph.addNode(""+d.getID()).addAttribute("ProcessingPlant", d);
+        retgraph.addNode(""+e.getID()).addAttribute("ProcessingPlant", e);
+        
+        for (int i = 0; i < stops.size(); i++) {
+            retgraph.addNode(""+ stops.get(i).getID()).addAttribute("EcoStop", stops.get(i));
+        }
+        retgraph.addEdge("0-1", "0","1",true);
+        retgraph.addEdge("1-0", "1","0",true);
+        retgraph.addEdge("0-D", "0","D",true);
+        retgraph.addEdge("D-0", "D","0",true);
+        retgraph.addEdge("1-2", "1","2",true);
+        retgraph.addEdge("2-1", "2","1",true);
+        retgraph.addEdge("2-3", "2","3",true);
+        retgraph.addEdge("3-2", "3","2",true);
+        retgraph.addEdge("2-10", "2","10",true);
+        retgraph.addEdge("10-2", "10","2",true);
+        retgraph.addEdge("10-3", "10","3",true);
+        retgraph.addEdge("3-10", "3","10",true);
+        retgraph.addEdge("3-4", "3","4",true);
+        retgraph.addEdge("4-3", "4","3",true);
+        retgraph.addEdge("4-5", "4","5",true);
+        retgraph.addEdge("5-4", "5","4",true);
+        retgraph.addEdge("0-5", "0","5",true);
+        retgraph.addEdge("5-0", "5","0",true);
+        retgraph.addEdge("5-6", "5","6",true);
+        retgraph.addEdge("5-8", "8","5",true);
+        retgraph.addEdge("8-5", "8","5",true);
+        retgraph.addEdge("8-7", "8","7",true);
+        retgraph.addEdge("7-8", "7","8",true);
+        retgraph.addEdge("6-5", "6","5",true);
+        retgraph.addEdge("6-E", "6","E",true);
+        retgraph.addEdge("E-6", "E","6",true);
+        retgraph.addEdge("6-7", "6","7",true);
+        retgraph.addEdge("7-6", "7","6",true);
+        retgraph.addEdge("8-14", "8","14",true);
+        retgraph.addEdge("14-8", "14","8",true);
+        retgraph.addEdge("14-9", "14","9",true);
+        retgraph.addEdge("9-14", "9","14",true);
+        retgraph.addEdge("14-13", "14","13",true);
+        retgraph.addEdge("13-14", "13","14",true);
+        retgraph.addEdge("13-12", "13","12",true);
+        retgraph.addEdge("12-13", "12","13",true);
+        retgraph.addEdge("10-12", "10","12",true);
+        retgraph.addEdge("12-10", "12","10",true);
+        retgraph.addEdge("12-11", "12","11",true);
+        retgraph.addEdge("11-12", "11","12",true);
+        retgraph.addEdge("12-17", "12","17",true);
+        retgraph.addEdge("17-12", "17","12",true);        
+        retgraph.addEdge("2-11", "2","11",true);
+        retgraph.addEdge("11-A", "11","A",true);
+        retgraph.addEdge("A-11", "A","11",true);
+        retgraph.addEdge("11-16", "11","16",true);
+        retgraph.addEdge("16-11", "16","11",true);
+        retgraph.addEdge("16-22", "16","22",true);
+        retgraph.addEdge("22-16", "22","16",true);
+        retgraph.addEdge("22-12", "22","12",true);
+        retgraph.addEdge("12-22", "12","22",true);
+        retgraph.addEdge("22-23", "22","23",true);
+        retgraph.addEdge("23-22", "23","22",true);
+        retgraph.addEdge("23-21", "23","21",true);
+        retgraph.addEdge("21-B", "21","B",true);
+        retgraph.addEdge("B-21", "B","21",true);
+        retgraph.addEdge("13-21", "13","21",true);
+        retgraph.addEdge("21-13", "21","13",true);
+        retgraph.addEdge("21-24", "21","24",true);
+        retgraph.addEdge("24-21", "24","21",true);
+        retgraph.addEdge("23-24", "23","24",true);
+        retgraph.addEdge("24-23", "24","23",true);
+        retgraph.addEdge("21-19", "21","19",true);
+        retgraph.addEdge("19-21", "19","21",true);
+        retgraph.addEdge("20-19", "20","19",true);
+        retgraph.addEdge("19-20", "19","20",true);
+        retgraph.addEdge("19-18", "19","18",true);
+        retgraph.addEdge("18-19", "18","19",true);
+        retgraph.addEdge("18-C", "18","C",true);
+        retgraph.addEdge("C-18", "C","18",true);
+        retgraph.addEdge("15-18", "15","18",true);
+        retgraph.addEdge("18-15", "18","15",true);
+        retgraph.addEdge("20-15", "20","15",true);
+        retgraph.addEdge("15-20", "15","20",true);
+        retgraph.addEdge("8-18", "8","18",true);
+        retgraph.addEdge("18-8", "18","8",true);
+        retgraph.addEdge("7-15", "7","15",true);
+        retgraph.addEdge("15-7", "15","7",true);
+        
+        for (Node node : retgraph) {
+            node.addAttribute("ui.label", node.getId());
+        }
+        return retgraph;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bg_registerw;
     private javax.swing.JLabel jLabel1;
