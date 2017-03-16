@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package echostops;
+package EcoStops;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -31,6 +31,13 @@ public class EcoStop {
         aluminum_units = 0;
         burnable_units = 0;
 
+    }
+
+    public void setUnits(int[] units) {
+        this.plastic_units += units[0];
+        this.glass_units += units[1];
+        this.aluminum_units += units[2];
+        this.burnable_units += units[3];
     }
 
     public int getID() {
