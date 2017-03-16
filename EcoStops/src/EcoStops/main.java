@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.stream.ProxyPipe;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
@@ -46,17 +47,17 @@ public class main extends javax.swing.JFrame {
         MemberList = new LinkedList();
         Prizes = new Queue();
         graph = createMultigraph();
-        graph.addAttribute("ui.style", returnCSS(new File("./graph.css")));
         FillCB();
 
         TrafficChangerThread t1 = new TrafficChangerThread(graph);
         t1.start();
-        graph.display();
         viewer = new Viewer(graph,
                 Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         view = viewer.addDefaultView(true);
         viewer.enableAutoLayout();
-        view.setSize(new Dimension(1100, 800));
+        ProxyPipe viewerPipe = viewer.newViewerPipe();
+        viewerPipe.addAttributeSink(graph);
+        view.setSize(new Dimension(1100, 650));
         this.add((Component) view, BorderLayout.SOUTH);
         view.openInAFrame(false);
         view.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -64,6 +65,7 @@ public class main extends javax.swing.JFrame {
                 selectNodes(evt);
             }
         });
+        ggraph = viewer.getGraphicGraph();
         MemberList.insert(new Member("Caca", "Roto", 123, "321dsasd", 20, true), 0);
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
         m.addElement(new Member("Caca", "Roto", 123, "321dsasd", 20, true));
@@ -118,6 +120,8 @@ public class main extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         textarea_notifications = new javax.swing.JTextArea();
         jb_notificaciones = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mi_RegistrarMiembro = new javax.swing.JMenuItem();
@@ -408,6 +412,11 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane4.setViewportView(jTextArea2);
+
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jMenu1.setText("Opciones");
@@ -438,17 +447,24 @@ public class main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(836, Short.MAX_VALUE)
-                .addComponent(jb_notificaciones)
-                .addGap(23, 23, 23))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(710, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jb_notificaciones)
+                        .addGap(55, 55, 55))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jb_notificaciones)
-                .addContainerGap(442, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         pack();
@@ -608,6 +624,7 @@ public class main extends javax.swing.JFrame {
     private MultiGraph createMultigraph() {
         MultiGraph retgraph = new MultiGraph("Map");
         retgraph.setStrict(false);
+        retgraph.addAttribute("ui.stylesheet", returnCSS(new File("./graph.css")));
         ArrayList<EcoStop> stops = new ArrayList();
         for (int i = 0; i < 25; i++) {
             stops.add(new EcoStop(i));
@@ -623,7 +640,7 @@ public class main extends javax.swing.JFrame {
         retgraph.addNode("" + c.getID()).addAttribute("ProcessingPlant", c);
         retgraph.addNode("" + d.getID()).addAttribute("ProcessingPlant", d);
         retgraph.addNode("" + e.getID()).addAttribute("ProcessingPlant", e);
-
+   
         for (int i = 0; i < stops.size(); i++) {
             retgraph.addNode("" + stops.get(i).getID()).addAttribute("EcoStop", stops.get(i));
         }
@@ -647,7 +664,7 @@ public class main extends javax.swing.JFrame {
         retgraph.addEdge("0-5", "0", "5", true);
         retgraph.addEdge("5-0", "5", "0", true);
         retgraph.addEdge("5-6", "5", "6", true);
-        retgraph.addEdge("5-8", "8", "5", true);
+        retgraph.addEdge("5-8", "5", "8", true);
         retgraph.addEdge("8-5", "8", "5", true);
         retgraph.addEdge("8-7", "8", "7", true);
         retgraph.addEdge("7-8", "7", "8", true);
@@ -761,11 +778,13 @@ public class main extends javax.swing.JFrame {
         if (evt.isMetaDown()) {
             int nodeselect = 0;
             for (Node node : graph) {
-                if (graph.getNode(node.getId()).hasAttribute("ui.selected")) {
+                if (ggraph.getNode(node.getId()).hasAttribute("ui.selected")) {
                     if (this.nodea == null) {
                         this.nodea = ggraph.getNode(node.getId());
-                    } else if (this.nodeb == null && ggraph.getNode(node.getId()) != this.nodea) {
+                        System.out.println(nodea.getId());
+                    } else if (this.nodeb == null && ggraph.getNode(node.getId()) != this.nodea&& ggraph.getNode(node.getId()).hasAttribute("ProcessingPlant")) {
                         this.nodeb = viewer.getGraphicGraph().getNode(node.getId());
+                        System.out.println(nodeb.getId());
                     } else {
                         if (this.nodea != null && this.nodeb != null && nodeselect >= 2) {
                             JOptionPane.showMessageDialog(this, "Ya eligió dos sus stops, se reiniciarán las selecciones");
@@ -773,21 +792,6 @@ public class main extends javax.swing.JFrame {
                                 this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
                             }
                             for (Edge edge : graph.getEachEdge()) {
-                                ggraph.getEdge(edge.getId()).removeAttribute("ui.style");
-                                ggraph.getEdge(edge.getId()).removeAttribute("ui.label");
-                                ggraph.getEdge(edge.getId()).addAttribute("ui.style", ""
-                                        + "	size: 5px;\n"
-                                        + "	shape:angle;\n"
-                                        + "	arrow-shape:arrow;\n"
-                                        + "	arrow-size:5px,5px;\n"
-                                        + "	padding: 20px;\n"
-                                        + "	fill-mode:gradient-horizontal;\n"
-                                        + "	fill-color:#ff0084,#480048;\n"
-                                        + "     text-color:white;\n"
-                                        + "	text-background-mode:rounded-box;\n"
-                                        + "	text-background-color: #A7CC;\n"
-                                        + "	text-style:bold-italic;\n"
-                                        + "	text-alignment:under; ");
                             }
                             nodeselect = 0;
                             this.nodea = null;
@@ -798,26 +802,7 @@ public class main extends javax.swing.JFrame {
                 }
             }
         } else {
-            for (Node node : graph) {
-                this.ggraph.getNode(node.getId()).removeAttribute("ui.selected");
-            }
-            for (Edge edge : graph.getEachEdge()) {
-                ggraph.getEdge(edge.getId()).removeAttribute("ui.style");
-                ggraph.getEdge(edge.getId()).removeAttribute("ui.label");
-                ggraph.getEdge(edge.getId()).addAttribute("ui.style", ""
-                        + "	size: 5px;\n"
-                        + "	shape:angle;\n"
-                        + "	arrow-shape:arrow;\n"
-                        + "	arrow-size:5px,5px;\n"
-                        + "	padding: 20px;\n"
-                        + "	fill-mode:gradient-horizontal;\n"
-                        + "	fill-color:#ff0084,#480048;\n"
-                        + "     text-color:white;\n"
-                        + "	text-background-mode:rounded-box;\n"
-                        + "	text-background-color: #A7CC;\n"
-                        + "	text-style:bold-italic;\n"
-                        + "	text-alignment:under; ");
-            }
+            
             this.nodea = null;
             this.nodeb = null;
         }
@@ -861,8 +846,10 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JButton jb_clean;
     private javax.swing.JButton jb_deleteMember;
     private javax.swing.JButton jb_notificaciones;
