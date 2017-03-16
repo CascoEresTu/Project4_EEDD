@@ -41,7 +41,7 @@ public class TrafficChangerThread extends Thread {
 
             for (Edge edge : graph.getEachEdge()) {
 
-                int random = (int) (Math.random() * 100000) * 1000;
+                int random = (int) (Math.random() * 10000) + 800;
                 /*
                 En caso de que se ejecute el programa por primera vez
                 el atributo en la arista no existiría, por eso entramos 
@@ -61,7 +61,7 @@ public class TrafficChangerThread extends Thread {
             }
 
             try {
-                Thread.sleep(30000);
+                Thread.sleep(5000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficChangerThread.class.getName()).log(Level.SEVERE, null, ex);
             }

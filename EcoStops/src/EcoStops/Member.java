@@ -14,6 +14,11 @@ public class Member extends Person {
     private String MemberID;
     private int[] actual_units;
     private int[] history_units;
+    private LinkedList earned_prizes;
+
+    public LinkedList getEarned_prizes() {
+        return earned_prizes;
+    }
 
     public Member(String name, String last_name, int ID, String phone, int age, boolean gender) {
         super(name, last_name, ID, phone, age, gender);
@@ -24,6 +29,8 @@ public class Member extends Person {
         this.MemberID = MemberID;
         actual_units = new int[4];
         history_units = new int[4];
+        this.earned_prizes = new LinkedList();
+                
     }
 
     public String getMemberID() {

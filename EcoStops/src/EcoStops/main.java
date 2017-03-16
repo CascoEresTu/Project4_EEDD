@@ -7,10 +7,9 @@ package EcoStops;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import org.graphstream.algorithm.Dijkstra;
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
@@ -25,12 +24,17 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         initComponents();
+        this.cb_ecoStops.setEnabled(false);
+        this.jLabel16.setEnabled(false);
+        this.jLabel16.setVisible(false);
+        this.cb_ecoStops.setVisible(false);
+
         MemberList = new LinkedList();
         Prizes = new Queue();
         graph = createMultigraph();
-        TrafficChangerThread t1 = new TrafficChangerThread(graph);        
+        FillCB();
+        TrafficChangerThread t1 = new TrafficChangerThread(graph);
         t1.start();
-                       
         graph.display();
 
         MemberList.insert(new Member("Caca", "Roto", 123, "321dsasd", 20, true), 0);
@@ -82,6 +86,12 @@ public class main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         bg_tipo = new javax.swing.ButtonGroup();
+        window_notifications = new javax.swing.JDialog();
+        jb_clean = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        textarea_notifications = new javax.swing.JTextArea();
+        jb_notificaciones = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mi_RegistrarMiembro = new javax.swing.JMenuItem();
@@ -307,6 +317,8 @@ public class main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        windows_DelHelp.setResizable(false);
+
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -328,7 +340,60 @@ public class main extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        window_notifications.setResizable(false);
+
+        jb_clean.setText("Limpiar");
+        jb_clean.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_cleanMouseClicked(evt);
+            }
+        });
+
+        textarea_notifications.setEditable(false);
+        textarea_notifications.setColumns(20);
+        textarea_notifications.setRows(5);
+        jScrollPane3.setViewportView(textarea_notifications);
+
+        javax.swing.GroupLayout window_notificationsLayout = new javax.swing.GroupLayout(window_notifications.getContentPane());
+        window_notifications.getContentPane().setLayout(window_notificationsLayout);
+        window_notificationsLayout.setHorizontalGroup(
+            window_notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+            .addGroup(window_notificationsLayout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(jb_clean)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        window_notificationsLayout.setVerticalGroup(
+            window_notificationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, window_notificationsLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addGap(17, 17, 17)
+                .addComponent(jb_clean)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jb_notificaciones.setText("Notificaciones");
+        jb_notificaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_notificacionesMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 460, Short.MAX_VALUE)
+        );
+
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jMenu1.setText("Opciones");
 
@@ -358,11 +423,20 @@ public class main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 950, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addComponent(jb_notificaciones)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 483, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jb_notificaciones)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 25, Short.MAX_VALUE))
         );
 
         pack();
@@ -380,15 +454,24 @@ public class main extends javax.swing.JFrame {
         String phone = this.tf_numtel.getText();
         int age = (int) this.jSpinner2.getValue();
         boolean gender = false;
+        Person ToStore = null;
 
         if (this.rb_fem.isSelected()) {
             gender = true;
         } else if (this.rb_man.isSelected()) {
             gender = false;
         }
-        Person asd = new Member("1232122", name, last_name, 00000001, phone, age, gender);
-        Member temp = new Member("1232122", name, last_name, 00000001, phone, age, gender);
-        System.out.println(temp.toString());
+
+        if (this.rb_empleado.isSelected()) {
+            this.cb_ecoStops.getSelectedItem();
+            ToStore = new Employee("E" + GenerateID(), name, last_name, 123213, phone, age, gender);
+            ((EcoStop) (graph.getNode(this.cb_ecoStops.getSelectedItem().toString()).getAttribute("EcoStop")))
+                    .addEmployee((Employee) ToStore);
+        } else if (this.rb_miembro.isSelected()) {
+            //String MemberID, String name, String last_name, int ID, String phone, int age, boolean gender
+            ToStore = new Member("M" + GenerateID(), name, last_name, 1232123, phone, age, gender);
+            MemberList.insert(age, MemberList.Size() - 1);
+        }
 
         int numero = (int) (Math.random() * 100) + 20;
         System.out.println(numero);
@@ -416,6 +499,15 @@ public class main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jb_deleteMemberActionPerformed
 
+    private void FillCB() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) this.cb_ecoStops.getModel();
+        model.removeAllElements();
+        for (Node node : graph) {
+            model.addElement(node);
+        }
+        this.cb_ecoStops.setModel(model);
+
+    }
     private void jb_deleteMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_deleteMemberMouseClicked
 
         if (this.jl_memberList.getSelectedIndex() > -1) {
@@ -429,13 +521,10 @@ public class main extends javax.swing.JFrame {
                     model.addElement(MemberList.get(i));
                 }
             }
-
             this.jl_memberList.setModel(model);
         } else {
             JOptionPane.showMessageDialog(this.window_delete, "Seleccione un elemento valido");
         }
-
-
     }//GEN-LAST:event_jb_deleteMemberMouseClicked
 
     private void jl_memberListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_memberListMouseClicked
@@ -449,8 +538,6 @@ public class main extends javax.swing.JFrame {
             this.jLabel16.setVisible(false);
             this.cb_ecoStops.setVisible(false);
         }
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_rb_miembroItemStateChanged
 
     private void rb_empleadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rb_empleadoItemStateChanged
@@ -463,10 +550,19 @@ public class main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rb_empleadoItemStateChanged
 
+    private void jb_notificacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_notificacionesMouseClicked
+        this.window_notifications.pack();
+        this.window_notifications.show();
+
+    }//GEN-LAST:event_jb_notificacionesMouseClicked
+
+    private void jb_cleanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_cleanMouseClicked
+        this.textarea_notifications.setText("");
+    }//GEN-LAST:event_jb_cleanMouseClicked
+
     public void PrizeGenerator() {
         int numero = (int) (Math.random() * 1) + 4;
         // System.out.println(numero);
-
         switch (numero) {
             case 1:
                 Prizes.Queue("$25");
@@ -497,8 +593,6 @@ public class main extends javax.swing.JFrame {
         return sb.toString();
     }
 
-    
-
     private MultiGraph createMultigraph() {
         MultiGraph retgraph = new MultiGraph("Map");
         retgraph.setStrict(false);
@@ -521,8 +615,7 @@ public class main extends javax.swing.JFrame {
         for (int i = 0; i < stops.size(); i++) {
             retgraph.addNode("" + stops.get(i).getID()).addAttribute("EcoStop", stops.get(i));
         }
-       
-        
+
         retgraph.addEdge("0-1", "0", "1", true);
         retgraph.addEdge("1-0", "1", "0", true);
         retgraph.addEdge("0-D", "0", "D", true);
@@ -669,11 +762,15 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton jb_clean;
     private javax.swing.JButton jb_deleteMember;
+    private javax.swing.JButton jb_notificaciones;
     private javax.swing.JButton jb_register;
     private javax.swing.JList<String> jl_memberList;
     private javax.swing.JMenuItem mi_RegistrarMiembro;
@@ -683,12 +780,14 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JRadioButton rb_fem;
     private javax.swing.JRadioButton rb_man;
     private javax.swing.JRadioButton rb_miembro;
+    private javax.swing.JTextArea textarea_notifications;
     private javax.swing.JTextField tf_ID;
     private javax.swing.JTextField tf_lastname;
     private javax.swing.JTextField tf_name;
     private javax.swing.JTextField tf_numtel;
     private javax.swing.JDialog window_Register;
     private javax.swing.JDialog window_delete;
+    private javax.swing.JDialog window_notifications;
     private javax.swing.JDialog windows_DelHelp;
     // End of variables declaration//GEN-END:variables
     private LinkedList MemberList;
