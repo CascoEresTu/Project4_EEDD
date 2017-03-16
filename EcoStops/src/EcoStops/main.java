@@ -37,6 +37,7 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setTitle("EcoStops & Processing Plants");
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         initComponents();
         this.cb_ecoStops.setEnabled(false);
@@ -121,7 +122,9 @@ public class main extends javax.swing.JFrame {
         textarea_notifications = new javax.swing.JTextArea();
         jb_notificaciones = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        pp_info = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        es_info = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mi_RegistrarMiembro = new javax.swing.JMenuItem();
@@ -412,10 +415,15 @@ public class main extends javax.swing.JFrame {
             }
         });
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane4.setViewportView(jTextArea2);
+        pp_info.setEditable(false);
+        pp_info.setColumns(20);
+        pp_info.setRows(5);
+        jScrollPane4.setViewportView(pp_info);
+
+        es_info.setEditable(false);
+        es_info.setColumns(20);
+        es_info.setRows(5);
+        jScrollPane5.setViewportView(es_info);
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -447,24 +455,28 @@ public class main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(710, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(678, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jb_notificaciones)
-                        .addGap(55, 55, 55))))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jb_notificaciones)
+                            .addGap(78, 78, 78))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(22, 22, 22)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jb_notificaciones)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addComponent(jb_notificaciones)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -779,14 +791,24 @@ public class main extends javax.swing.JFrame {
             int nodeselect = 0;
             for (Node node : graph) {
                 if (ggraph.getNode(node.getId()).hasAttribute("ui.selected")) {
-                    if (this.nodea == null) {
+                    if (this.nodea == null && graph.getNode(node.getId()).hasAttribute("EcoStop")) {
                         this.nodea = ggraph.getNode(node.getId());
-                        System.out.println(nodea.getId());
-                    } else if (this.nodeb == null && ggraph.getNode(node.getId()) != this.nodea&& ggraph.getNode(node.getId()).hasAttribute("ProcessingPlant")) {
+                        String infoNode = "Eco Stop #" + ((EcoStop)node.getAttribute("EcoStop")).getID() +"\n"
+                                + "Plastic Units:" + ((EcoStop)node.getAttribute("EcoStop")).getPlastic_units() + "\n"
+                                + "Glass Units:" +((EcoStop)node.getAttribute("EcoStop")).getGlass_units() + "\n"
+                                + "Burnable Units" + ((EcoStop)node.getAttribute("EcoStop")).getBurnable_units() + "\n"
+                                + "Aluminium Units:" + ((EcoStop)node.getAttribute("EcoStop")).getAluminum_units() + "\n";
+                        this.es_info.setText(infoNode);
+                    } else if (this.nodeb == null && graph.getNode(node.getId()) != this.nodea && graph.getNode(node.getId()).hasAttribute("ProcessingPlant")){
                         this.nodeb = viewer.getGraphicGraph().getNode(node.getId());
-                        System.out.println(nodeb.getId());
+                        String infoNode = "Processing Plant #" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getID() +"\n"
+                                + "Plastic Units:" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getPlastic_units() + "\n"
+                                + "Glass Units:" +((ProcessingPlant)node.getAttribute("ProcessingPlant")).getGlass_units() + "\n"
+                                + "Burnable Units" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getBurnable_units() + "\n"
+                                + "Aluminium Units:" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getAluminum_units() + "\n";
+                        this.pp_info.setText(infoNode);
                     } else {
-                        if (this.nodea != null && this.nodeb != null && nodeselect >= 2) {
+                        if (nodea!=null && nodeb!=null && nodeselect >= 2) {
                             JOptionPane.showMessageDialog(this, "Ya eligió dos sus stops, se reiniciarán las selecciones");
                             for (Node nodei : graph) {
                                 this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
@@ -796,6 +818,8 @@ public class main extends javax.swing.JFrame {
                             nodeselect = 0;
                             this.nodea = null;
                             this.nodeb = null;
+                            this.pp_info.setText("");
+                            this.es_info.setText("");
                         }
                     }
                     nodeselect++;
@@ -829,6 +853,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bg_registerw;
     private javax.swing.ButtonGroup bg_tipo;
     private javax.swing.JComboBox<String> cb_ecoStops;
+    private javax.swing.JTextArea es_info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -847,9 +872,9 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JButton jb_clean;
     private javax.swing.JButton jb_deleteMember;
     private javax.swing.JButton jb_notificaciones;
@@ -858,6 +883,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_RegistrarMiembro;
     private javax.swing.JMenuItem mi_deleteMember;
     private javax.swing.JMenuItem mi_help;
+    private javax.swing.JTextArea pp_info;
     private javax.swing.JRadioButton rb_empleado;
     private javax.swing.JRadioButton rb_fem;
     private javax.swing.JRadioButton rb_man;
