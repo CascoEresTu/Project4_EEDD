@@ -30,7 +30,6 @@ public class EcoStop {
         glass_units = 0;
         aluminum_units = 0;
         burnable_units = 0;
-
     }
 
     public void setUnits(int[] units) {
@@ -62,7 +61,11 @@ public class EcoStop {
         } else {
             JOptionPane.showMessageDialog(null, "Aqui no hay nada");
         }
+    }
 
+    @Override
+    public String toString() {
+        return ID + "";
     }
 
 }
