@@ -71,6 +71,16 @@ public class ThreadAirbotDelivery extends Thread {
 
     @Override
     public void run() {
+        
+        ArrayList PosibleTrips = new ArrayList();
+        String EcoAttribute = ((EcoStop) (graph.getNode(Selected_EcoStop.toString()).getAttribute("EcoStop"))).getID() + "";
+        
+        PosibleTrips.add(TripRoute_N_Weight(EcoAttribute, "A"));
+        PosibleTrips.add(TripRoute_N_Weight(EcoAttribute, "B"));
+        PosibleTrips.add(TripRoute_N_Weight(EcoAttribute, "C"));
+        PosibleTrips.add(TripRoute_N_Weight(EcoAttribute, "D"));
+        PosibleTrips.add(TripRoute_N_Weight(EcoAttribute, "E"));                
+               
         while (run) {
             ArrayList<Double> Weight_Routes;
             Weight_Routes = new ArrayList();
@@ -78,8 +88,7 @@ public class ThreadAirbotDelivery extends Thread {
 
     }
 
-
-    public Object[] TripRoute_N_Distance(String EcoStop_ID, String PowerPlant_ID) {
+    public Object[] TripRoute_N_Weight(String EcoStop_ID, String PowerPlant_ID) {
         Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "Traffic Weight");
         dijkstra.init(graph);
         dijkstra.setSource(graph.getNode(EcoStop_ID));
@@ -88,19 +97,15 @@ public class ThreadAirbotDelivery extends Thread {
 
         double weight = 0;
         ArrayList<Node> route = new ArrayList();
-        
+
         for (Node node : dijkstra.getPathNodes(graph.getNode(PowerPlant_ID))) {
             route.add(node);
-
         }
-        
         for (Edge edge : dijkstra.getPathEdges(graph.getNode(PowerPlant_ID))) {
             weight += (double) edge.getAttribute("Traffic Weight");
         }
-        
         retval[0] = route;
         retval[1] = weight;
-        
         dijkstra.clear();
         return retval;
     }

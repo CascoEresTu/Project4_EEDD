@@ -28,7 +28,6 @@ public class ThreadMemberDelivery extends Thread {
         this.graph = graph;
     }
 
-    
     public boolean isRun() {
         return run;
     }
@@ -44,15 +43,13 @@ public class ThreadMemberDelivery extends Thread {
             int selected_member = (int) (Math.random() * MemberList.Size() - 1);
             //int selected_EcoStop = (int) (Math.random() * EcoStopList.Size() - 1);
             int selected_EcoStop = (int) (Math.random() * graph.getNodeCount() - 1);
-            
+
             Member temp = (Member) MemberList.get(selected_member);
             EcoStop aux = (EcoStop) EcoStopList.get(selected_EcoStop);
-            
-            int [] retval = ThrashGenerator();
-            ((EcoStop)(graph.getNode(""+selected_EcoStop).getAttribute("EcoStop"))).setUnits(retval);
-            
-            
-         
+
+            int[] retval = ThrashGenerator();
+            ((EcoStop) (graph.getNode("" + selected_EcoStop).getAttribute("EcoStop"))).setUnits(retval);
+
             // se crean nuevos valores actuales a depositar 
             temp.setActual_units(ThrashGenerator());
 
@@ -86,4 +83,5 @@ public class ThreadMemberDelivery extends Thread {
         int burnable_units = (int) (Math.random() * 100) + 10;
         return new int[]{plastic_units, glass_units, aluminum_units, burnable_units};
     }
+
 }
