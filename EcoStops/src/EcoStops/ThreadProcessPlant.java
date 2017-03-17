@@ -22,7 +22,7 @@ public class ThreadProcessPlant extends Thread {
     private JProgressBar work;
     private JProgressBar energy_produced;
     private char ProcPlantID;
-    private boolean run = false;
+    private boolean run = true;
 
     public ThreadProcessPlant(MultiGraph graph, JProgressBar work, JProgressBar energy_produced, char PowerPlantID) {
         this.graph = graph;
@@ -87,7 +87,7 @@ public class ThreadProcessPlant extends Thread {
         int sumUnits = temp.getAluminum_units() + temp.getGlass_units() + temp.getAluminum_units();
         if (sumUnits > 0) {
             this.energy_produced.setValue((int) temp.getBurnable_units());
-            this.work.setValue(temp.getAluminum_units() + temp.getGlass_units() + temp.getAluminum_units());
+            this.work.setValue(sumUnits);
         }
         while (run) {
             if (this.energy_produced.getValue() >= 0) {
@@ -96,6 +96,7 @@ public class ThreadProcessPlant extends Thread {
             if (this.work.getValue() >= 0) {
                 this.work.setValue((int) (this.work.getValue() - (this.work.getValue() * 0.05)));
             }
+                System.out.println(sumUnits);
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {
