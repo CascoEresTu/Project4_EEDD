@@ -16,10 +16,13 @@ public class EcoStop {
 
     private int ID;
     private ArrayList<Employee> Employees = new ArrayList();
-    int plastic_units;
-    int glass_units;
-    int aluminum_units;
-    int burnable_units;  // Lo que nos generará energía. 
+    private int plastic_units;
+    private int glass_units;
+    private int aluminum_units;
+    private int burnable_units;
+    private Airbots Airbot;
+    
+    // Lo que nos generará energía. 
 
     public EcoStop() {
     }
@@ -30,6 +33,7 @@ public class EcoStop {
         glass_units = 0;
         aluminum_units = 0;
         burnable_units = 0;
+        Airbot = new Airbots();
     }
 
     public int getPlastic_units() {
@@ -46,6 +50,22 @@ public class EcoStop {
 
     public int getBurnable_units() {
         return burnable_units;
+    }
+
+    public void setPlastic_units(int plastic_units) {
+        this.plastic_units = plastic_units;
+    }
+
+    public void setGlass_units(int glass_units) {
+        this.glass_units = glass_units;
+    }
+
+    public void setAluminum_units(int aluminum_units) {
+        this.aluminum_units = aluminum_units;
+    }
+
+    public void setBurnable_units(int burnable_units) {
+        this.burnable_units = burnable_units;
     }
 
     
@@ -84,7 +104,7 @@ public class EcoStop {
         } else {
             JOptionPane.showMessageDialog(null, "Aqui no hay nada");
         }
-    }
+    } 
 
     @Override
     public String toString() {
