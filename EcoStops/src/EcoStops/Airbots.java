@@ -18,7 +18,7 @@ public class Airbots {
     private boolean isBusy;
     
     public Airbots(int capacity_plastics, int capacity_aluminum, int capacity_glass) {
-        this.materials = new int[3];
+        this.materials = new int[4];
         this.capacity_plastics = capacity_plastics;
         this.capacity_aluminum = capacity_aluminum;
         this.capacity_glass = capacity_glass;
