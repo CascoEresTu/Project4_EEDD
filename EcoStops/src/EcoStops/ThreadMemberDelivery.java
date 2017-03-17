@@ -14,7 +14,7 @@ import org.graphstream.graph.implementations.MultiGraph;
  * @author k_k_r
  */
 public class ThreadMemberDelivery extends Thread {
-
+    
     private ArrayList<Member> MemberList;
     private MultiGraph graph;
     private boolean run = false;
@@ -38,7 +38,7 @@ public class ThreadMemberDelivery extends Thread {
         while (run) {
             //Se seleccionan miembro y EcoStop a interactuar aleatoreamente
             int selected_member = (int) (Math.random() * MemberList.size() - 1);           
-            int selected_EcoStop = (int) (Math.random() * graph.getNodeCount() - 1);
+            int selected_EcoStop = (int) (Math.random() * 24)+1;
 
             Member temp = (Member) MemberList.get(selected_member);
 
@@ -60,7 +60,7 @@ public class ThreadMemberDelivery extends Thread {
             
             //aleatorio para determinar el tiempo en que se dormirá el hilo
             int tiempo = (int) (Math.random() * 1000) ;
-            
+           
             try {                                                
                 Thread.sleep(tiempo);
             } catch (InterruptedException ex) {

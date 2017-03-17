@@ -56,6 +56,7 @@ public class main extends javax.swing.JFrame {
         this.cb_ecoStops.setVisible(false);
 
         MemberList = new ArrayList();
+        MemberList.add(new Member("M"+GenerateID(), "Carlos","casco", 123213, "12321",20,false));
         Prizes = new Queue();
         graph = createMultigraph();
         FillCB();
