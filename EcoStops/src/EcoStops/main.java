@@ -89,11 +89,18 @@ public class main extends javax.swing.JFrame {
         DeliveryOne = new ThreadMemberDelivery(MemberList, graph, this.textarea_notifications);
         DeliveryOne.setRun(true);
         DeliveryOne.start();
+
         plantA = new ThreadProcessPlant(graph, this.pb_a1, this.pb_a2, 'A');
         plantB = new ThreadProcessPlant(graph, this.pb_b1, this.pb_b2, 'B');
         plantC = new ThreadProcessPlant(graph, this.pb_c1, this.pb_c2, 'C');
         plantD = new ThreadProcessPlant(graph, this.pb_d1, this.pb_d2, 'D');
         plantE = new ThreadProcessPlant(graph, this.pb_e1, this.pb_e2, 'E');
+
+        plantA.setRun(true);
+        plantB.setRun(true);
+        plantC.setRun(true);
+        plantD.setRun(true);
+        plantE.setRun(true);
 
         plantA.start();
         plantB.start();
@@ -697,6 +704,11 @@ public class main extends javax.swing.JFrame {
 
         mi_PPwindows.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
         mi_PPwindows.setText("Mostrar Estado de Planta");
+        mi_PPwindows.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_PPwindowsActionPerformed(evt);
+            }
+        });
         jMenu1.add(mi_PPwindows);
 
         jMenuBar1.add(jMenu1);
@@ -912,6 +924,11 @@ public class main extends javax.swing.JFrame {
             this.es_info.setText("");
         }
     }//GEN-LAST:event_enviar_botActionPerformed
+
+    private void mi_PPwindowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_PPwindowsActionPerformed
+        this.window_PPstats.pack();
+        this.window_PPstats.setVisible(true);
+    }//GEN-LAST:event_mi_PPwindowsActionPerformed
 
     public void PrizeGenerator() {
         int numero = (int) (Math.random() * 1) + 4;
@@ -1173,11 +1190,13 @@ public class main extends javax.swing.JFrame {
     public void LoadFile() {
         File f = new File("./save.data");
         ArrayList<EcoStop> EcoStops_temp = new ArrayList();
+        ArrayList<ProcessingPlant> pp_temp = new ArrayList();
         try {
             FileInputStream entrada = new FileInputStream(f);
             ObjectInputStream objeto = new ObjectInputStream(entrada);
             Member temp;
             EcoStop aux;
+            ProcessingPlant eux;
             try {
 
                 while ((temp = (Member) objeto.readObject()) != null) {
@@ -1187,12 +1206,23 @@ public class main extends javax.swing.JFrame {
                 while ((aux = (EcoStop) objeto.readObject()) != null) {
                     EcoStops_temp.add(aux);
                 }
+                 while ((eux = (ProcessingPlant) objeto.readObject()) != null) {
+                    
+                }
+              
 
                 int i = 0;
                 for (Node node : graph) {
                     if (node.getAttribute("EcoStop") != null) {
                         node.setAttribute("Ecostop", EcoStops_temp.get(i));
                         i++;
+                    }
+                }
+                int k= 0;   
+                for (Node node : graph) {
+                    if (node.getAttribute("ProcessingPlant") != null) {
+                        node.setAttribute("ProcessingPlant", pp_temp.get(k));
+                        k++;
                     }
                 }
 
@@ -1222,7 +1252,11 @@ public class main extends javax.swing.JFrame {
             }
 
             for (Node node : graph) {
-                oos.writeObject(((EcoStop) node.getAttribute("EcoStop")));
+                if (node.getAttribute("EcoStop") == null) {
+                    oos.writeObject((ProcessingPlant) node.getAttribute("ProcessingPlant"));
+                } else {
+                    oos.writeObject(((EcoStop) node.getAttribute("EcoStop")));
+                }
             }
 
             oos.close();
