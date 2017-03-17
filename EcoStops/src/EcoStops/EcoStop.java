@@ -5,6 +5,7 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -12,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author cgcv
  */
-public class EcoStop {
+public class EcoStop implements Serializable {
 
     private int ID;
     private ArrayList<Employee> Employees = new ArrayList();

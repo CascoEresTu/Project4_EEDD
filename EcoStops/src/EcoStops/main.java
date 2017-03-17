@@ -11,10 +11,12 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.graphstream.algorithm.Dijkstra;
@@ -897,29 +900,59 @@ public class main extends javax.swing.JFrame {
         }
     }
 
+    public void LoadFile() {
+        File f = new File("./save.data");
+        ArrayList<EcoStop> EcoStops_temp = new ArrayList();
+        try {
+            FileInputStream entrada = new FileInputStream(f);
+            ObjectInputStream objeto = new ObjectInputStream(entrada);
+            Member temp;
+            EcoStop aux;
+            try {
+
+                while ((temp = (Member) objeto.readObject()) != null) {
+                    MemberList.insert(temp, 0);
+                }
+
+                while ((aux = (EcoStop) objeto.readObject()) != null) {
+                    EcoStops_temp.add(aux);
+                }
+
+                int i = 0;
+                for (Node node : graph) {
+                    if (node.getAttribute("EcoStop") != null) {
+                        node.setAttribute("Ecostop", EcoStops_temp.get(i));
+                        i++;
+                    }
+                }
+
+            } catch (Exception e) {
+            } finally {
+                objeto.close();
+                entrada.close();
+            }
+        } catch (Exception ex) {
+        }
+
+    }
+
     public void WriteFile() {
+        if (new File("./save.data").exists()) {
+            new File("./save.data").delete();
+        }
 
         FileOutputStream fos;
 
-        LinkedList temp_Employees = new LinkedList();
-        for (Node node : graph) {
-            int size = ((EcoStop) node.getAttribute("EcoStop")).getEmployees().size();
-            for (int i = 0; i < size; i++) {
-                temp_Employees.insert(((EcoStop) node.getAttribute("EcoStop")).getEmployees().get(i), 0);
-            }
-
-        }
-
         try {
-            fos = new FileOutputStream("t.tmp");
+            fos = new FileOutputStream("./save.data");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             for (int i = 0; i < MemberList.Size(); i++) {
                 oos.writeObject(MemberList.get(i));
             }
 
-            for (int i = 0; i < temp_Employees.Size(); i++) {
-                oos.writeObject(temp_Employees.get(i));
+            for (Node node : graph) {
+                oos.writeObject(((EcoStop) node.getAttribute("EcoStop")));
             }
 
             oos.close();
