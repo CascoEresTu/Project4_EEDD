@@ -83,7 +83,7 @@ public class ThreadProcessPlant extends Thread {
     public void run() {
         String ID = this.ProcPlantID + "";
         System.out.println(ID);
-        ProcessingPlant temp = ((ProcessingPlant) (graph.getNode(ID).getAttribute("Processing Plant")));
+        ProcessingPlant temp = ((ProcessingPlant) (graph.getNode(ID).getAttribute("ProcessingPlant")));
         int sumUnits = temp.getAluminum_units() + temp.getGlass_units() + temp.getAluminum_units();
         if (sumUnits > 0) {
             this.energy_produced.setValue((int) temp.getBurnable_units());
