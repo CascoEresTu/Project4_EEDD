@@ -18,6 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.graphstream.algorithm.Dijkstra;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -125,6 +126,7 @@ public class main extends javax.swing.JFrame {
         pp_info = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         es_info = new javax.swing.JTextArea();
+        enviar_bot = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mi_RegistrarMiembro = new javax.swing.JMenuItem();
@@ -425,6 +427,13 @@ public class main extends javax.swing.JFrame {
         es_info.setRows(5);
         jScrollPane5.setViewportView(es_info);
 
+        enviar_bot.setText("Enviar AirBot");
+        enviar_bot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviar_botActionPerformed(evt);
+            }
+        });
+
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jMenu1.setText("Opciones");
@@ -455,17 +464,21 @@ public class main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(678, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jb_notificaciones)
-                            .addGap(78, 78, 78))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(22, 22, 22)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jb_notificaciones)
+                                .addGap(78, 78, 78))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(enviar_bot, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(82, 82, 82))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -476,7 +489,9 @@ public class main extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(enviar_bot, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -600,6 +615,52 @@ public class main extends javax.swing.JFrame {
         this.textarea_notifications.setText("");
     }//GEN-LAST:event_jb_cleanMouseClicked
 
+    private void enviar_botActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviar_botActionPerformed
+        int option = JOptionPane.showConfirmDialog(this, "Se transportará los desechos reciclabes de " + nodea.getId() + " a " + nodeb.getId() + ".\n ¿Desea continuar?", "Transporte en proceso", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "Traffic Weight");
+            dijkstra.init(graph);
+            dijkstra.setSource(graph.getNode(nodea.getId()));
+            dijkstra.compute();
+            for (Node nodei : dijkstra.getPathNodes(graph.getNode(nodeb.getId()))) {
+                this.ggraph.getNode(nodei.getId()).addAttribute("ui.selected");
+            }
+            for (Edge edge : dijkstra.getPathEdges(graph.getNode(nodeb.getId()))) {
+                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-mode:gradient-horizontal;fill-color:blue, cyan;");
+            }
+            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setAluminum_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getAluminum_units());
+            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setBurnable_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getBurnable_units());
+            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setPlastic_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getPlastic_units());
+            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setGlass_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getGlass_units());
+            ((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).emptyEcostop();
+            Dijkstra dijkstra2 = new Dijkstra(Dijkstra.Element.EDGE, null, "Traffic Weight");
+            dijkstra2.init(graph);
+            dijkstra2.setSource(graph.getNode(nodeb.getId()));
+            dijkstra2.compute();
+            for (Node nodei : dijkstra2.getPathNodes(graph.getNode(nodea.getId()))) {
+                this.ggraph.getNode(nodei.getId()).addAttribute("ui.selected");
+            }
+            for (Edge edge : dijkstra2.getPathEdges(graph.getNode(nodea.getId()))) {
+                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-mode:gradient-horizontal;fill-color:red, orange;");
+            }
+            this.nodea = null;
+            this.nodeb = null;
+            this.pp_info.setText("");
+            this.es_info.setText("");
+        } else {
+            for (Node nodei : graph) {
+                this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
+            }
+            for (Edge edge : graph.getEachEdge()) {
+                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style","fill-color:black;");
+            }
+            this.nodea = null;
+            this.nodeb = null;
+            this.pp_info.setText("");
+            this.es_info.setText("");
+        }
+    }//GEN-LAST:event_enviar_botActionPerformed
+
     public void PrizeGenerator() {
         int numero = (int) (Math.random() * 1) + 4;
         // System.out.println(numero);
@@ -652,7 +713,7 @@ public class main extends javax.swing.JFrame {
         retgraph.addNode("" + c.getID()).addAttribute("ProcessingPlant", c);
         retgraph.addNode("" + d.getID()).addAttribute("ProcessingPlant", d);
         retgraph.addNode("" + e.getID()).addAttribute("ProcessingPlant", e);
-   
+
         for (int i = 0; i < stops.size(); i++) {
             retgraph.addNode("" + stops.get(i).getID()).addAttribute("EcoStop", stops.get(i));
         }
@@ -793,27 +854,30 @@ public class main extends javax.swing.JFrame {
                 if (ggraph.getNode(node.getId()).hasAttribute("ui.selected")) {
                     if (this.nodea == null && graph.getNode(node.getId()).hasAttribute("EcoStop")) {
                         this.nodea = ggraph.getNode(node.getId());
-                        String infoNode = "Eco Stop #" + ((EcoStop)node.getAttribute("EcoStop")).getID() +"\n"
-                                + "Plastic Units:" + ((EcoStop)node.getAttribute("EcoStop")).getPlastic_units() + "\n"
-                                + "Glass Units:" +((EcoStop)node.getAttribute("EcoStop")).getGlass_units() + "\n"
-                                + "Burnable Units" + ((EcoStop)node.getAttribute("EcoStop")).getBurnable_units() + "\n"
-                                + "Aluminium Units:" + ((EcoStop)node.getAttribute("EcoStop")).getAluminum_units() + "\n";
+                        String infoNode = "Eco Stop #" + ((EcoStop) node.getAttribute("EcoStop")).getID() + "\n"
+                                + "Plastic Units:" + ((EcoStop) node.getAttribute("EcoStop")).getPlastic_units() + "\n"
+                                + "Glass Units:" + ((EcoStop) node.getAttribute("EcoStop")).getGlass_units() + "\n"
+                                + "Burnable Units" + ((EcoStop) node.getAttribute("EcoStop")).getBurnable_units() + "\n"
+                                + "Aluminium Units:" + ((EcoStop) node.getAttribute("EcoStop")).getAluminum_units() + "\n";
                         this.es_info.setText(infoNode);
-                    } else if (this.nodeb == null && graph.getNode(node.getId()) != this.nodea && graph.getNode(node.getId()).hasAttribute("ProcessingPlant")){
+                    } else if (this.nodeb == null && graph.getNode(node.getId()) != this.nodea && graph.getNode(node.getId()).hasAttribute("ProcessingPlant")) {
                         this.nodeb = viewer.getGraphicGraph().getNode(node.getId());
-                        String infoNode = "Processing Plant #" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getID() +"\n"
-                                + "Plastic Units:" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getPlastic_units() + "\n"
-                                + "Glass Units:" +((ProcessingPlant)node.getAttribute("ProcessingPlant")).getGlass_units() + "\n"
-                                + "Burnable Units" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getBurnable_units() + "\n"
-                                + "Aluminium Units:" + ((ProcessingPlant)node.getAttribute("ProcessingPlant")).getAluminum_units() + "\n";
+                        String infoNode = "Processing Plant #" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getID() + "\n"
+                                + "Plastic Units:" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getPlastic_units() + "\n"
+                                + "Glass Units:" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getGlass_units() + "\n"
+                                + "Burnable Units" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getBurnable_units() + "\n"
+                                + "Aluminium Units:" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getAluminum_units() + "\n";
                         this.pp_info.setText(infoNode);
                     } else {
-                        if (nodea!=null && nodeb!=null && nodeselect >= 2) {
+                        if (nodea != null && nodeb != null && nodeselect >= 2) {
                             JOptionPane.showMessageDialog(this, "Ya eligió dos sus stops, se reiniciarán las selecciones");
                             for (Node nodei : graph) {
-                                this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
+                                if (ggraph.getNode(nodei.getId()).hasAttribute("ui.selected")) {
+                                    this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
+                                }
                             }
                             for (Edge edge : graph.getEachEdge()) {
+                                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style","fill-color:black;");
                             }
                             nodeselect = 0;
                             this.nodea = null;
@@ -826,12 +890,12 @@ public class main extends javax.swing.JFrame {
                 }
             }
         } else {
-            
+
             this.nodea = null;
             this.nodeb = null;
         }
     }
-    
+
     public static String returnCSS(File file) {
         String css = "";
         try {
@@ -853,6 +917,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bg_registerw;
     private javax.swing.ButtonGroup bg_tipo;
     private javax.swing.JComboBox<String> cb_ecoStops;
+    private javax.swing.JButton enviar_bot;
     private javax.swing.JTextArea es_info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;

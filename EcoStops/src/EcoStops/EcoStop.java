@@ -55,7 +55,13 @@ public class EcoStop {
         this.aluminum_units += units[2];
         this.burnable_units += units[3];
     }
-
+    public void emptyEcostop(){
+        this.plastic_units = 0;
+        this.glass_units = 0;
+        this.aluminum_units = 0;
+        this.burnable_units = 0;
+    }
+    
     public int getID() {
         return ID;
     }
