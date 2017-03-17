@@ -14,6 +14,7 @@ public class Airbots {
     private int capacity_plastics ; 
     private int capacity_aluminum;
     private int capacity_glass;
+    private int capacity_burnable;
     private int [] materials;
     private boolean isBusy;
     
@@ -34,7 +35,7 @@ public class Airbots {
         
 
     public Airbots() {
-        this.materials = new int[3];
+        this.materials = new int[4];
     }
 
     public int getCapacity_plastics() {
