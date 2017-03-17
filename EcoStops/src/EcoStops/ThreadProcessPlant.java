@@ -82,7 +82,6 @@ public class ThreadProcessPlant extends Thread {
     @Override
     public void run() {
         String ID = this.ProcPlantID + "";
-        System.out.println(ID);
         ProcessingPlant temp = ((ProcessingPlant) (graph.getNode(ID).getAttribute("ProcessingPlant")));
         int sumUnits = temp.getAluminum_units() + temp.getGlass_units() + temp.getAluminum_units();
         if (sumUnits > 0) {
@@ -96,7 +95,7 @@ public class ThreadProcessPlant extends Thread {
             if (this.work.getValue() >= 0) {
                 this.work.setValue((int) (this.work.getValue() - (this.work.getValue() * 0.05)));
             }
-                System.out.println(sumUnits);
+            
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {

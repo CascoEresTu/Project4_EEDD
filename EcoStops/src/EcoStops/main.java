@@ -6,6 +6,7 @@
 package EcoStops;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -50,13 +51,15 @@ public class main extends javax.swing.JFrame {
         this.setTitle("EcoStops & Processing Plants");
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         initComponents();
+        this.getContentPane().setBackground( Color.cyan );
+
         this.cb_ecoStops.setEnabled(false);
         this.jLabel16.setEnabled(false);
         this.jLabel16.setVisible(false);
         this.cb_ecoStops.setVisible(false);
 
         MemberList = new ArrayList();
-        MemberList.add(new Member("M" + GenerateID(), "Carlos", "casco", 123213, "12321", 20, false));
+        //MemberList.add(new Member("M" + GenerateID(), "Carlos", "casco", 123213, "12321", 20, false));
         Prizes = new Queue();
         graph = createMultigraph();
         FillCB();
@@ -1265,7 +1268,7 @@ public class main extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     public static String returnCSS(File file) {
