@@ -95,6 +95,12 @@ public class main extends javax.swing.JFrame {
         plantD = new ThreadProcessPlant(graph, this.pb_d1, this.pb_d2, 'D');
         plantE = new ThreadProcessPlant(graph, this.pb_e1, this.pb_e2, 'E');
 
+        plantA.setRun(true);
+        plantB.setRun(true);
+        plantC.setRun(true);
+        plantD.setRun(true);
+        plantE.setRun(true);
+
         plantA.start();
         plantB.start();
         plantC.start();
@@ -697,6 +703,11 @@ public class main extends javax.swing.JFrame {
 
         mi_PPwindows.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
         mi_PPwindows.setText("Mostrar Estado de Planta");
+        mi_PPwindows.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_PPwindowsActionPerformed(evt);
+            }
+        });
         jMenu1.add(mi_PPwindows);
 
         jMenuBar1.add(jMenu1);
@@ -901,6 +912,11 @@ public class main extends javax.swing.JFrame {
             this.es_info.setText("");
         }
     }//GEN-LAST:event_enviar_botActionPerformed
+
+    private void mi_PPwindowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_PPwindowsActionPerformed
+        this.window_PPstats.pack();
+        this.window_PPstats.setVisible(true);
+    }//GEN-LAST:event_mi_PPwindowsActionPerformed
 
     public void PrizeGenerator() {
         int numero = (int) (Math.random() * 1) + 4;

@@ -807,6 +807,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Mostrar Estado de Planta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_PPwindowsActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
