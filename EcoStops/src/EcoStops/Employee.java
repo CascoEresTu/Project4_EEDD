@@ -12,6 +12,7 @@ package EcoStops;
 public class Employee extends Person {
 
     private String WorkID;
+    private String EcoStopID; 
 
     public Employee(String name, String last_name, int ID, String phone, int age, boolean gender) {
         super(name, last_name, ID, phone, age, gender);
@@ -21,6 +22,15 @@ public class Employee extends Person {
         super(name, last_name, ID, phone, age, gender);
         this.WorkID = WorkID;
     }
+
+    public String getEcoStopID() {
+        return EcoStopID;
+    }
+
+    public void setEcoStopID(String EcoStopID) {
+        this.EcoStopID = EcoStopID;
+    }
+    
 
     public String getWorkID() {
         return WorkID;

@@ -11,9 +11,15 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -649,7 +655,7 @@ public class main extends javax.swing.JFrame {
                 this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
             }
             for (Edge edge : graph.getEachEdge()) {
-                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style","fill-color:black;");
+                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-color:black;");
             }
             this.nodea = null;
             this.nodeb = null;
@@ -865,23 +871,21 @@ public class main extends javax.swing.JFrame {
                                 + "Burnable Units" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getBurnable_units() + "\n"
                                 + "Aluminium Units:" + ((ProcessingPlant) node.getAttribute("ProcessingPlant")).getAluminum_units() + "\n";
                         this.pp_info.setText(infoNode);
-                    } else {
-                        if (nodea != null && nodeb != null && nodeselect >= 2) {
-                            JOptionPane.showMessageDialog(this, "Ya eligió dos sus stops, se reiniciarán las selecciones");
-                            for (Node nodei : graph) {
-                                if (ggraph.getNode(nodei.getId()).hasAttribute("ui.selected")) {
-                                    this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
-                                }
+                    } else if (nodea != null && nodeb != null && nodeselect >= 2) {
+                        JOptionPane.showMessageDialog(this, "Ya eligió dos sus stops, se reiniciarán las selecciones");
+                        for (Node nodei : graph) {
+                            if (ggraph.getNode(nodei.getId()).hasAttribute("ui.selected")) {
+                                this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
                             }
-                            for (Edge edge : graph.getEachEdge()) {
-                                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style","fill-color:black;");
-                            }
-                            nodeselect = 0;
-                            this.nodea = null;
-                            this.nodeb = null;
-                            this.pp_info.setText("");
-                            this.es_info.setText("");
                         }
+                        for (Edge edge : graph.getEachEdge()) {
+                            this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-color:black;");
+                        }
+                        nodeselect = 0;
+                        this.nodea = null;
+                        this.nodeb = null;
+                        this.pp_info.setText("");
+                        this.es_info.setText("");
                     }
                     nodeselect++;
                 }
@@ -891,6 +895,40 @@ public class main extends javax.swing.JFrame {
             this.nodea = null;
             this.nodeb = null;
         }
+    }
+
+    public void WriteFile() {
+
+        FileOutputStream fos;
+
+        LinkedList temp_Employees = new LinkedList();
+        for (Node node : graph) {
+            int size = ((EcoStop) node.getAttribute("EcoStop")).getEmployees().size();
+            for (int i = 0; i < size; i++) {
+                temp_Employees.insert(((EcoStop) node.getAttribute("EcoStop")).getEmployees().get(i), 0);
+            }
+
+        }
+
+        try {
+            fos = new FileOutputStream("t.tmp");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            for (int i = 0; i < MemberList.Size(); i++) {
+                oos.writeObject(MemberList.get(i));
+            }
+
+            for (int i = 0; i < temp_Employees.Size(); i++) {
+                oos.writeObject(temp_Employees.get(i));
+            }
+
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public static String returnCSS(File file) {

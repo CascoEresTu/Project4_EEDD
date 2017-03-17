@@ -5,11 +5,13 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cgcv
  */
-public class Person {
+public class Person implements Serializable {
     private String name;
     private String last_name;
     private int ID;
