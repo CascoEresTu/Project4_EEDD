@@ -5,11 +5,13 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cgcv
  */
-public class Airbots {
+public class Airbots implements Serializable {
    
     private int[] materials_ToDeliver;
 

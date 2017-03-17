@@ -55,7 +55,7 @@ public class main extends javax.swing.JFrame {
         this.jLabel16.setVisible(false);
         this.cb_ecoStops.setVisible(false);
 
-        MemberList = new LinkedList();
+        MemberList = new ArrayList();
         Prizes = new Queue();
         graph = createMultigraph();
         FillCB();
@@ -77,10 +77,20 @@ public class main extends javax.swing.JFrame {
             }
         });
         ggraph = viewer.getGraphicGraph();
-        MemberList.insert(new Member("Caca", "Roto", 123, "321dsasd", 20, true), 0);
-        DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
-        m.addElement(new Member("Caca", "Roto", 123, "321dsasd", 20, true));
-        this.jl_memberList.setModel(m);
+
+        if (new File("./save.data").exists()) {
+            System.out.println("entró");
+            LoadFile();
+        }
+        FillList();
+
+        for (int i = 0; i < MemberList.size(); i++) {
+            System.out.println("hola");
+        }
+        System.out.println(MemberList.size());
+        DeliveryOne = new ThreadMemberDelivery(MemberList,graph);
+        DeliveryOne.setRun(true);
+        DeliveryOne.start();
     }
 
     /**
@@ -533,13 +543,13 @@ public class main extends javax.swing.JFrame {
                     .addEmployee((Employee) ToStore);
         } else if (this.rb_miembro.isSelected()) {
             //String MemberID, String name, String last_name, int ID, String phone, int age, boolean gender
-            ToStore = new Member("M" + GenerateID(), name, last_name, 1232123, phone, age, gender);
-            MemberList.insert(age, MemberList.Size() - 1);
+            //ToStore = new Member("M" + GenerateID(), name, last_name, 1232123, phone, age, gender);
+            MemberList.add(new Member("M" + GenerateID(), name, last_name, 1232123, phone, age, gender));
         }
 
-        int numero = (int) (Math.random() * 100) + 20;
-        System.out.println(numero);
+        System.out.println(MemberList.size());
 
+        WriteFile();
         int x = JOptionPane.showConfirmDialog(this.window_Register, "¿Desea continuar");
 
         if (x == 1) {
@@ -549,6 +559,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_registerMouseClicked
 
     private void mi_deleteMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_deleteMemberActionPerformed
+        FillList();
         this.window_delete.pack();
         this.window_delete.show();
     }//GEN-LAST:event_mi_deleteMemberActionPerformed
@@ -572,20 +583,19 @@ public class main extends javax.swing.JFrame {
         this.cb_ecoStops.setModel(model);
 
     }
+
+    private void FillList() {
+        DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
+        for (int i = 0; i < MemberList.size(); i++) {
+            m.addElement((Member) MemberList.get(i));
+        }
+        this.jl_memberList.setModel(m);
+    }
     private void jb_deleteMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_deleteMemberMouseClicked
 
         if (this.jl_memberList.getSelectedIndex() > -1) {
-            int selected = this.jl_memberList.getSelectedIndex();
-            this.MemberList.remove(selected);
-            DefaultListModel model = (DefaultListModel) this.jl_memberList.getModel();
-            model.clear();
-
-            if (MemberList.Size() > 0) {
-                for (int i = 0; i < MemberList.Size() - 1; i++) {
-                    model.addElement(MemberList.get(i));
-                }
-            }
-            this.jl_memberList.setModel(model);
+            this.MemberList.remove(this.jl_memberList.getSelectedIndex());
+            FillList();
         } else {
             JOptionPane.showMessageDialog(this.window_delete, "Seleccione un elemento valido");
         }
@@ -911,7 +921,7 @@ public class main extends javax.swing.JFrame {
             try {
 
                 while ((temp = (Member) objeto.readObject()) != null) {
-                    MemberList.insert(temp, 0);
+                    MemberList.add(temp);
                 }
 
                 while ((aux = (EcoStop) objeto.readObject()) != null) {
@@ -947,8 +957,8 @@ public class main extends javax.swing.JFrame {
             fos = new FileOutputStream("./save.data");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            for (int i = 0; i < MemberList.Size(); i++) {
-                oos.writeObject(MemberList.get(i));
+            for (int i = 0; i < MemberList.size(); i++) {
+                oos.writeObject( MemberList.get(i));
             }
 
             for (Node node : graph) {
@@ -1031,7 +1041,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JDialog window_notifications;
     private javax.swing.JDialog windows_DelHelp;
     // End of variables declaration//GEN-END:variables
-    private LinkedList MemberList;
+    private ArrayList<Member> MemberList;
     private Queue Prizes;
     private int contador_miembros;
     private MultiGraph graph;
@@ -1040,4 +1050,5 @@ public class main extends javax.swing.JFrame {
     private ViewPanel view = null;
     private Node nodea = null;
     private Node nodeb = null;
+    private ThreadMemberDelivery DeliveryOne;
 }

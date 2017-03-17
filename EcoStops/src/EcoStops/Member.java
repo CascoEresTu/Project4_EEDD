@@ -5,11 +5,13 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cgcv
  */
-public class Member extends Person {
+public class Member extends Person implements Serializable {
 
     private String MemberID;
     private int[] actual_units;

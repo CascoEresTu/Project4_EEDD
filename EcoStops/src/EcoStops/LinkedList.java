@@ -5,11 +5,13 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cgcv
  */
-public class LinkedList extends ADTList {
+public class LinkedList extends ADTList implements Serializable {
 
     public class Node {
 

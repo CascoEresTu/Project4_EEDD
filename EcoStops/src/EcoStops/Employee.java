@@ -5,11 +5,13 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cgcv
  */
-public class Employee extends Person {
+public class Employee extends Person implements Serializable {
 
     private String WorkID;
     private String EcoStopID; 

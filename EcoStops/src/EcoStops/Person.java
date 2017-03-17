@@ -18,6 +18,7 @@ public class Person implements Serializable {
     private String phone;
     private int age;
     private boolean gender;
+    private Queue prizes;
 
     public Person(String name, String last_name, int ID, String phone, int age, boolean gender) {
         this.name = name;
@@ -26,6 +27,7 @@ public class Person implements Serializable {
         this.phone = phone;
         this.age = age;
         this.gender = gender;
+        prizes = new Queue();
     }
 
     public String getName() {

@@ -5,11 +5,13 @@
  */
 package EcoStops;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cgcv
  */
-public class Queue {
+public class Queue implements Serializable {
     private LinkedList principal;
 
     public Queue() {
