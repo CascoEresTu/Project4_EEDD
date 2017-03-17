@@ -1,34 +1,89 @@
+graph{
+	fill-mode:gradient-vertical;
+	fill-color:#348F50,#56B4D3;
+}
 node{
-	size:20px;
+	size:32px;
 	fill-color:red;
-	shape:triangle;
+	shape:circle;
+	fill-mode:image-scaled;
+	fill-image:url('./circle.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
 }
 
 node:selected{
-	fill-color:aquamarine;
+	size:40px;
+	fill-color:aquamarine; 
+	shape:rounded-box;
+	fill-mode:image-scaled;
+	fill-image:url('./trianglec.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
 }
 node#A{
-	size:20px;
+	size:40px;
 	fill-color:green; 
 	shape:rounded-box;
+	fill-mode:image-scaled;
+	fill-image:url('./circle2.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
 }
 node#B{
-	size:20px;
+	size:40px;
 	fill-color:green; 
 	shape:rounded-box;
+	fill-mode:image-scaled;
+	fill-image:url('./circle2.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
 }
 node#C{
-	size:20px;
+	size:40px;
 	fill-color:green; 
 	shape:rounded-box;
+	fill-mode:image-scaled;
+	fill-image:url('./circle2.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
 }
 node#D{
-	size:20px;
+	size:40px;
 	fill-color:green; 
 	shape:rounded-box;
+	fill-mode:image-scaled;
+	fill-image:url('./circle2.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
 }
 node#E{
-	size:20px;
+	size:40px;
 	fill-color:green; 
 	shape:rounded-box;
+	fill-mode:image-scaled;
+	fill-image:url('./circle2.png');
+	text-mode:normal;
+	text-color:white;
+	text-style:bold-italic;
+}
+edge{
+	size: 5px;
+	shape:angle;
+	arrow-shape:arrow;
+	arrow-size:5px,5px;
+	padding: 20px;
+	fill-mode:gradient-horizontal;
+	fill-color:#5C258D,#4389A2;
+	text-color:white;
+	text-background-mode:rounded-box;
+	text-background-color: #135058;
+	text-style:bold-italic;
+	text-alignment:center;
 }

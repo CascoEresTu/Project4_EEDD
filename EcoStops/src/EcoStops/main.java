@@ -860,7 +860,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_cleanMouseClicked
 
     private void enviar_botActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviar_botActionPerformed
-        int option = JOptionPane.showConfirmDialog(this, "Se transportará los desechos reciclabes de " + nodea.getId() + " a " + nodeb.getId() + ".\n ¿Desea continuar?", "Transporte en proceso", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(this, "Se transportará los desechos reciclables de " + nodea.getId() + " a " + nodeb.getId() + ".\n ¿Desea continuar?", "Transporte en proceso", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             Dijkstra dijkstra = new Dijkstra(Dijkstra.Element.EDGE, null, "Traffic Weight");
             dijkstra.init(graph);
@@ -893,7 +893,18 @@ public class main extends javax.swing.JFrame {
                 this.ggraph.getNode(nodei.getId()).removeAttribute("ui.selected");
             }
             for (Edge edge : graph.getEachEdge()) {
-                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-color:black;");
+                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "size: 5px;\n"
+                        + "	shape:angle;\n"
+                        + "	arrow-shape:arrow;\n"
+                        + "	arrow-size:5px,5px;\n"
+                        + "	padding: 20px;\n"
+                        + "	fill-mode:gradient-horizontal;\n"
+                        + "	fill-color:#5C258D,#4389A2;\n"
+                        + "	text-color:white;\n"
+                        + "	text-background-mode:rounded-box;\n"
+                        + "	text-background-color: #135058;\n"
+                        + "	text-style:bold-italic;\n"
+                        + "	text-alignment:center;");
             }
             this.nodea = null;
             this.nodeb = null;
@@ -1117,7 +1128,18 @@ public class main extends javax.swing.JFrame {
                             }
                         }
                         for (Edge edge : graph.getEachEdge()) {
-                            this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-color:black;");
+                            this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "size: 5px;\n"
+                                    + "	shape:angle;\n"
+                                    + "	arrow-shape:arrow;\n"
+                                    + "	arrow-size:5px,5px;\n"
+                                    + "	padding: 20px;\n"
+                                    + "	fill-mode:gradient-horizontal;\n"
+                                    + "	fill-color:#5C258D,#4389A2;\n"
+                                    + "	text-color:white;\n"
+                                    + "	text-background-mode:rounded-box;\n"
+                                    + "	text-background-color: #135058;\n"
+                                    + "	text-style:bold-italic;\n"
+                                    + "	text-alignment:center;");
                         }
                         nodeselect = 0;
                         this.nodea = null;
@@ -1129,7 +1151,20 @@ public class main extends javax.swing.JFrame {
                 }
             }
         } else {
-
+            for (Edge edge : graph.getEachEdge()) {
+                this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "size: 5px;\n"
+                        + "	shape:angle;\n"
+                        + "	arrow-shape:arrow;\n"
+                        + "	arrow-size:5px,5px;\n"
+                        + "	padding: 20px;\n"
+                        + "	fill-mode:gradient-horizontal;\n"
+                        + "	fill-color:#5C258D,#4389A2;\n"
+                        + "	text-color:white;\n"
+                        + "	text-background-mode:rounded-box;\n"
+                        + "	text-background-color: #135058;\n"
+                        + "	text-style:bold-italic;\n"
+                        + "	text-alignment:center;");
+            }
             this.nodea = null;
             this.nodeb = null;
         }
