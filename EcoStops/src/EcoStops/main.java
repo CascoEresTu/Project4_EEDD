@@ -56,7 +56,7 @@ public class main extends javax.swing.JFrame {
         this.cb_ecoStops.setVisible(false);
 
         MemberList = new ArrayList();
-        MemberList.add(new Member("M"+GenerateID(), "Carlos","casco", 123213, "12321",20,false));
+        MemberList.add(new Member("M" + GenerateID(), "Carlos", "casco", 123213, "12321", 20, false));
         Prizes = new Queue();
         graph = createMultigraph();
         FillCB();
@@ -85,13 +85,22 @@ public class main extends javax.swing.JFrame {
         }
         FillList();
 
-        for (int i = 0; i < MemberList.size(); i++) {
-            System.out.println("hola");
-        }
         System.out.println(MemberList.size());
-        DeliveryOne = new ThreadMemberDelivery(MemberList,graph);
+        DeliveryOne = new ThreadMemberDelivery(MemberList, graph, this.textarea_notifications);
         DeliveryOne.setRun(true);
         DeliveryOne.start();
+        plantA = new ThreadProcessPlant(graph, this.pb_a1, this.pb_a2, 'A');
+        plantB = new ThreadProcessPlant(graph, this.pb_b1, this.pb_b2, 'B');
+        plantC = new ThreadProcessPlant(graph, this.pb_c1, this.pb_c2, 'C');
+        plantD = new ThreadProcessPlant(graph, this.pb_d1, this.pb_d2, 'D');
+        plantE = new ThreadProcessPlant(graph, this.pb_e1, this.pb_e2, 'E');
+
+        plantA.start();
+        plantB.start();
+        plantC.start();
+        plantD.start();
+        plantE.start();
+
     }
 
     /**
@@ -141,6 +150,33 @@ public class main extends javax.swing.JFrame {
         jb_clean = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         textarea_notifications = new javax.swing.JTextArea();
+        window_PPstats = new javax.swing.JDialog();
+        pb_a1 = new javax.swing.JProgressBar();
+        pb_a2 = new javax.swing.JProgressBar();
+        pb_d1 = new javax.swing.JProgressBar();
+        pb_d2 = new javax.swing.JProgressBar();
+        pb_b1 = new javax.swing.JProgressBar();
+        pb_b2 = new javax.swing.JProgressBar();
+        pb_c1 = new javax.swing.JProgressBar();
+        pb_c2 = new javax.swing.JProgressBar();
+        pb_e1 = new javax.swing.JProgressBar();
+        pb_e2 = new javax.swing.JProgressBar();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
         jb_notificaciones = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         pp_info = new javax.swing.JTextArea();
@@ -151,6 +187,7 @@ public class main extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         mi_RegistrarMiembro = new javax.swing.JMenuItem();
         mi_deleteMember = new javax.swing.JMenuItem();
+        mi_PPwindows = new javax.swing.JMenuItem();
 
         jLabel1.setText("REGISTRO");
 
@@ -428,6 +465,188 @@ public class main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        pb_a1.setMaximum(100000);
+
+        pb_a2.setMaximum(100000);
+
+        pb_d1.setMaximum(100000);
+
+        pb_d2.setMaximum(100000);
+
+        pb_b1.setMaximum(100000);
+
+        pb_b2.setMaximum(100000);
+
+        pb_c1.setMaximum(100000);
+
+        pb_c2.setMaximum(100000);
+
+        pb_e1.setMaximum(100000);
+
+        pb_e2.setMaximum(100000);
+
+        jLabel4.setText("A");
+
+        jLabel5.setText("B");
+
+        jLabel10.setText("C");
+
+        jLabel11.setText("D");
+
+        jLabel12.setText("E");
+
+        jLabel13.setText("Estado de Plantas Procesadoras");
+
+        jLabel17.setText("Materia a Procesar");
+
+        jLabel18.setText("Energía Producida");
+
+        jLabel19.setText("Materia a Procesar");
+
+        jLabel20.setText("Energía Producida");
+
+        jLabel21.setText("Materia a Procesar");
+
+        jLabel22.setText("Energía Producida");
+
+        jLabel23.setText("Materia a Procesar");
+
+        jLabel24.setText("Energía Producida");
+
+        jLabel25.setText("Materia a Procesar");
+
+        jLabel26.setText("Energía Producida");
+
+        javax.swing.GroupLayout window_PPstatsLayout = new javax.swing.GroupLayout(window_PPstats.getContentPane());
+        window_PPstats.getContentPane().setLayout(window_PPstatsLayout);
+        window_PPstatsLayout.setHorizontalGroup(
+            window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(window_PPstatsLayout.createSequentialGroup()
+                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                .addGap(136, 136, 136)
+                                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(pb_e2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pb_e1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel5))
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(pb_c2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(pb_c1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(pb_d2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(pb_d1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(pb_a1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(pb_a2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(pb_b2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(pb_b1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(18, 18, 18)
+                        .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel21)
+                            .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel24)
+                                    .addComponent(jLabel25)
+                                    .addComponent(jLabel26))
+                                .addComponent(jLabel22))))
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jLabel13)))
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        window_PPstatsLayout.setVerticalGroup(
+            window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(window_PPstatsLayout.createSequentialGroup()
+                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel4)
+                        .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addComponent(pb_b1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel5)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pb_b2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                        .addGap(28, 28, 28)
+                                        .addComponent(pb_c1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jLabel10)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pb_c2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(window_PPstatsLayout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jLabel19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel21)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel22))))
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel13)
+                        .addGap(37, 37, 37)
+                        .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pb_a1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pb_a2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18))))
+                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(pb_d1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pb_d2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel11))
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel24)))
+                .addGap(17, 17, 17)
+                .addGroup(window_PPstatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addComponent(pb_e1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addGap(2, 2, 2)
+                        .addComponent(pb_e2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(window_PPstatsLayout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel26)))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jb_notificaciones.setText("Notificaciones");
@@ -475,6 +694,10 @@ public class main extends javax.swing.JFrame {
             }
         });
         jMenu1.add(mi_deleteMember);
+
+        mi_PPwindows.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
+        mi_PPwindows.setText("Mostrar Estado de Planta");
+        jMenu1.add(mi_PPwindows);
 
         jMenuBar1.add(jMenu1);
 
@@ -587,6 +810,7 @@ public class main extends javax.swing.JFrame {
 
     private void FillList() {
         DefaultListModel m = (DefaultListModel) this.jl_memberList.getModel();
+        m.clear();
         for (int i = 0; i < MemberList.size(); i++) {
             m.addElement((Member) MemberList.get(i));
         }
@@ -959,7 +1183,7 @@ public class main extends javax.swing.JFrame {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             for (int i = 0; i < MemberList.size(); i++) {
-                oos.writeObject( MemberList.get(i));
+                oos.writeObject(MemberList.get(i));
             }
 
             for (Node node : graph) {
@@ -999,11 +1223,27 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton enviar_bot;
     private javax.swing.JTextArea es_info;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1024,9 +1264,20 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton jb_notificaciones;
     private javax.swing.JButton jb_register;
     private javax.swing.JList<String> jl_memberList;
+    private javax.swing.JMenuItem mi_PPwindows;
     private javax.swing.JMenuItem mi_RegistrarMiembro;
     private javax.swing.JMenuItem mi_deleteMember;
     private javax.swing.JMenuItem mi_help;
+    private javax.swing.JProgressBar pb_a1;
+    private javax.swing.JProgressBar pb_a2;
+    private javax.swing.JProgressBar pb_b1;
+    private javax.swing.JProgressBar pb_b2;
+    private javax.swing.JProgressBar pb_c1;
+    private javax.swing.JProgressBar pb_c2;
+    private javax.swing.JProgressBar pb_d1;
+    private javax.swing.JProgressBar pb_d2;
+    private javax.swing.JProgressBar pb_e1;
+    private javax.swing.JProgressBar pb_e2;
     private javax.swing.JTextArea pp_info;
     private javax.swing.JRadioButton rb_empleado;
     private javax.swing.JRadioButton rb_fem;
@@ -1037,6 +1288,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JTextField tf_lastname;
     private javax.swing.JTextField tf_name;
     private javax.swing.JTextField tf_numtel;
+    private javax.swing.JDialog window_PPstats;
     private javax.swing.JDialog window_Register;
     private javax.swing.JDialog window_delete;
     private javax.swing.JDialog window_notifications;
@@ -1052,4 +1304,10 @@ public class main extends javax.swing.JFrame {
     private Node nodea = null;
     private Node nodeb = null;
     private ThreadMemberDelivery DeliveryOne;
+
+    private ThreadProcessPlant plantA;
+    private ThreadProcessPlant plantB;
+    private ThreadProcessPlant plantC;
+    private ThreadProcessPlant plantD;
+    private ThreadProcessPlant plantE;
 }
