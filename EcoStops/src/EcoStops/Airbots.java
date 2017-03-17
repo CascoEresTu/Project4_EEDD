@@ -50,6 +50,10 @@ public class Airbots {
         return capacity_aluminum;
     }
 
+    public int getCapacity_burnable() {
+        return capacity_burnable;
+    }
+    
     public void setCapacity_aluminum(int capacity_aluminum) {
         this.capacity_aluminum = capacity_aluminum;
     }
