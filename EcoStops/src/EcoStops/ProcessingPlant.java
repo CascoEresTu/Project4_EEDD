@@ -30,6 +30,12 @@ public class ProcessingPlant {
         this.EnergyProduced = EnergyProduced;
     }
 
+    public void getDelivery(int[] units){
+        this.plastic_units += units[0];
+        this.glass_units += units[1];
+        this.aluminum_units += units[2];
+        this.burnable_units += units[3];
+    }
     public int getPlastic_units() {
         return plastic_units;
     }

@@ -33,7 +33,7 @@ public class EcoStop {
         glass_units = 0;
         aluminum_units = 0;
         burnable_units = 0;
-        Airbot = new Airbots();
+        Airbot = new Airbots(new int[]{this.plastic_units,this.glass_units,this.aluminum_units,this.burnable_units});
     }
 
     public int getPlastic_units() {
@@ -74,12 +74,18 @@ public class EcoStop {
         this.glass_units += units[1];
         this.aluminum_units += units[2];
         this.burnable_units += units[3];
+        this.Airbot.setMaterials_ToDeliver(new int[]{this.plastic_units,this.glass_units,this.aluminum_units,this.burnable_units});
     }
     public void emptyEcostop(){
         this.plastic_units = 0;
         this.glass_units = 0;
         this.aluminum_units = 0;
         this.burnable_units = 0;
+        Airbot.setMaterials_ToDeliver(new int[]{0,0,0,0});
+    }
+
+    public Airbots getAirbot() {
+        return Airbot;
     }
     
     public int getID() {

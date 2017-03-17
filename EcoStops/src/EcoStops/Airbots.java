@@ -10,60 +10,23 @@ package EcoStops;
  * @author cgcv
  */
 public class Airbots {
+   
+    private int[] materials_ToDeliver;
 
-    private int capacity_plastics ; 
-    private int capacity_aluminum;
-    private int capacity_glass;
-    private int capacity_burnable;
-    private int [] materials;
-    private boolean isBusy;
-    
-    public Airbots(int capacity_plastics, int capacity_aluminum, int capacity_glass) {
-        this.materials = new int[4];
-        this.capacity_plastics = capacity_plastics;
-        this.capacity_aluminum = capacity_aluminum;
-        this.capacity_glass = capacity_glass;
+    public Airbots(int[] materials) {
+        this.materials_ToDeliver = materials;
     }
 
-    public Airbots(int capacity_plastics, int capacity_aluminum, int capacity_glass, int[] materials) {
-        this.capacity_plastics = capacity_plastics;
-        this.capacity_aluminum = capacity_aluminum;
-        this.capacity_glass = capacity_glass;
-        this.materials = materials;
-        this.isBusy = false;
-    }
-        
-
-    public Airbots() {
-        this.materials = new int[4];
+    public int[] getMaterials_ToDeliver() {
+        return materials_ToDeliver;
     }
 
-    public int getCapacity_plastics() {
-        return capacity_plastics;
+    public void setMaterials_ToDeliver(int[] materials_ToDeliver) {
+        this.materials_ToDeliver = materials_ToDeliver;
     }
 
-    public void setCapacity_plastics(int capacity_plastics) {
-        this.capacity_plastics = capacity_plastics;
+    @Override
+    public String toString() {
+        return "Airbots{" + "materials_ToDeliver=" + materials_ToDeliver + '}';
     }
-
-    public int getCapacity_aluminum() {
-        return capacity_aluminum;
-    }
-
-    public int getCapacity_burnable() {
-        return capacity_burnable;
-    }
-    
-    public void setCapacity_aluminum(int capacity_aluminum) {
-        this.capacity_aluminum = capacity_aluminum;
-    }
-
-    public int getCapacity_glass() {
-        return capacity_glass;
-    }
-
-    public void setCapacity_glass(int capacity_glass) {
-        this.capacity_glass = capacity_glass;
-    }
-    
 }

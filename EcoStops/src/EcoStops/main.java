@@ -628,10 +628,7 @@ public class main extends javax.swing.JFrame {
             for (Edge edge : dijkstra.getPathEdges(graph.getNode(nodeb.getId()))) {
                 this.ggraph.getEdge(edge.getId()).addAttribute("ui.style", "fill-mode:gradient-horizontal;fill-color:blue, cyan;");
             }
-            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setAluminum_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getAluminum_units());
-            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setBurnable_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getBurnable_units());
-            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setPlastic_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getPlastic_units());
-            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).setGlass_units(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getGlass_units());
+            ((ProcessingPlant) graph.getNode(nodeb.getId()).getAttribute("ProcessingPlant")).getDelivery(((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).getAirbot().getMaterials_ToDeliver());
             ((EcoStop) graph.getNode(nodea.getId()).getAttribute("EcoStop")).emptyEcostop();
             Dijkstra dijkstra2 = new Dijkstra(Dijkstra.Element.EDGE, null, "Traffic Weight");
             dijkstra2.init(graph);

@@ -5,10 +5,7 @@ node{
 }
 
 node:selected{
-	fill-color:blue;
-}
-node:clicked{
-	
+	fill-color:aquamarine;
 }
 node#A{
 	size:20px;
